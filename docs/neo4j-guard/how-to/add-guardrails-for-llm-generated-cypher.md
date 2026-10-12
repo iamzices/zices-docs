@@ -14,8 +14,6 @@ pip install neo4j-guard
 
 ## Guard the driver
 
-Pass the driver to `guard()`.
-
 ```python
 from neo4j import GraphDatabase
 from neo4j_guard import GuardError, guard

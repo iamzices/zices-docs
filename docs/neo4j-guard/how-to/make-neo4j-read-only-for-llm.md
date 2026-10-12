@@ -28,8 +28,6 @@ except GuardError as error:
     print(error)  # MERGE is not allowed in read mode
 ```
 
-Read mode allows and blocks:
-
 |                                                                               | Read mode |
 | ----------------------------------------------------------------------------- | --------- |
 | Read clauses (`MATCH`, `RETURN`, `WITH`, ...)                                 | Allowed   |

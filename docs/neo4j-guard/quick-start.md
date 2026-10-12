@@ -31,5 +31,3 @@ try:
 except GuardError as error:
     print(error)  # CREATE is not allowed in read mode
 ```
-
-Give the guarded driver to the LLM.
