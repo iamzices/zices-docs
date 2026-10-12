@@ -14,6 +14,8 @@ pip install neo4j-guard
 
 ## Guard the driver
 
+Pass the driver to `guard()`.
+
 ```python
 from neo4j import GraphDatabase
 from neo4j_guard import GuardError, guard
@@ -26,7 +28,7 @@ except GuardError as error:
     print(error)  # DELETE is not allowed in read mode
 ```
 
-Queries are parsed with Neo4j's Cypher grammar, not matched against keywords. A `DELETE` inside a string is allowed, and a `DELETE` inside a `CALL { }` subquery is blocked.
+Queries are parsed with Neo4j's Cypher 25 grammar, not matched against keywords. A `DELETE` inside a string is allowed, and a `DELETE` inside a `CALL { }` subquery is blocked.
 
 ## Return blocked queries to the LLM
 

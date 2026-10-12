@@ -1,5 +1,6 @@
 ---
-title: Overview
+title: neo4j-guard overview
+sidebar_label: Overview
 description: neo4j-guard is a guardrail for LLM-generated Cypher, built for Neo4j.
 sidebar_position: 1
 ---
@@ -26,7 +27,7 @@ except GuardError as error:
 - Records are checked for blocked labels and properties before the driver returns them.
 - Only guarded drivers are checked. Other drivers in the same process are unchanged.
 
-It works with the sync and async Neo4j drivers (5.8+), LangChain's `Neo4jGraph` and the Neo4j MCP server.
+It works with the sync and async Neo4j drivers (5.8+), LangChain's `Neo4jGraph` and the Neo4j MCP server. It is compatible with Neo4j Community Edition, Enterprise Edition and Aura.
 
 ## Limits
 

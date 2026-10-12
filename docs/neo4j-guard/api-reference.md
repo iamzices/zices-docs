@@ -1,7 +1,8 @@
 ---
-title: API reference
+title: neo4j-guard API reference
+sidebar_label: API reference
 description: Signatures, parameters, defaults and errors of neo4j-guard.
-sidebar_position: 4
+sidebar_position: 5
 ---
 
 ## `guard()`
@@ -42,16 +43,16 @@ Raised when a query or its result is blocked, or the query is invalid Cypher. Th
 
 ## Mode defaults
 
-|                                                                               | Read | Write |
-| ----------------------------------------------------------------------------- | ---- | ----- |
-| Read clauses (`MATCH`, `RETURN`, `WITH`, ...)                                 | ✓    | ✓     |
-| Write clauses (`CREATE`, `MERGE`, `SET`, ...)                                 |      | ✓     |
-| Delete clauses (`DELETE`, `DETACH DELETE`)                                    |      |       |
-| Other clauses (`LOAD CSV`, `USE`)                                             |      |       |
-| Built-in functions (`toUpper`, `count`, ...)                                  | ✓    | ✓     |
-| Schema and search procedures (`db.labels`, `db.index.vector.queryNodes`, ...) | ✓    | ✓     |
-| Other procedures and functions (`apoc.*`, `dbms.*`, ...)                      |      |       |
-| Admin commands (`SHOW USERS`, `CREATE INDEX`, ...)                            |      |       |
+|                                                                               | Read mode | Write mode |
+| ----------------------------------------------------------------------------- | --------- | ---------- |
+| Read clauses (`MATCH`, `RETURN`, `WITH`, ...)                                 | Allowed   | Allowed    |
+| Write clauses (`CREATE`, `MERGE`, `SET`, ...)                                 | Blocked   | Allowed    |
+| Delete clauses (`DELETE`, `DETACH DELETE`)                                    | Blocked   | Blocked    |
+| Other clauses (`LOAD CSV`, `USE`)                                             | Blocked   | Blocked    |
+| Built-in functions (`toUpper`, `count`, ...)                                  | Allowed   | Allowed    |
+| Schema and search procedures (`db.labels`, `db.index.vector.queryNodes`, ...) | Allowed   | Allowed    |
+| Other procedures and functions (`apoc.*`, `dbms.*`, ...)                      | Blocked   | Blocked    |
+| Admin commands (`SHOW USERS`, `CREATE INDEX`, ...)                            | Blocked   | Blocked    |
 
 Admin commands are blocked in every mode and cannot be allowed. A leading `EXPLAIN` or `PROFILE` is removed before the query is checked.
 

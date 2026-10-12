@@ -7,4 +7,4 @@ description: Docs for Zices Python libraries.
 
 Docs for Zices Python libraries.
 
-- [neo4j-guard](/neo4j-guard/overview): a guardrail for LLM-generated Cypher, built for Neo4j.
+- [neo4j-guard](/neo4j-guard/overview): A guardrail for LLM-generated Cypher, built for Neo4j.

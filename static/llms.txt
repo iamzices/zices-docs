@@ -6,10 +6,11 @@
 
 A guardrail for LLM-generated Cypher, built for Neo4j. By default, only read queries are allowed.
 
-- [Overview](https://docs.zices.com/neo4j-guard/overview): neo4j-guard is a guardrail for LLM-generated Cypher, built for Neo4j.
-- [Quick start](https://docs.zices.com/neo4j-guard/quick-start): Install neo4j-guard, guard a Neo4j driver and block a write query.
+- [neo4j-guard overview](https://docs.zices.com/neo4j-guard/overview): neo4j-guard is a guardrail for LLM-generated Cypher, built for Neo4j.
+- [Why neo4j-guard?](https://docs.zices.com/neo4j-guard/why-neo4j-guard): neo4j-guard is a guardrail for LLM-generated Cypher that blocks what read-only connections still allow, such as LOAD CSV and APOC procedures. Compatible with Neo4j Community Edition, Enterprise Edition and Aura.
+- [neo4j-guard quick start](https://docs.zices.com/neo4j-guard/quick-start): Install neo4j-guard, guard a Neo4j driver and block a write query.
 - [How to add guardrails for LLM-generated Cypher](https://docs.zices.com/neo4j-guard/how-to/add-guardrails-for-llm-generated-cypher): Guard the Neo4j driver with guard() and run the LLM's queries through it.
-- [How to make Neo4j read-only for an LLM](https://docs.zices.com/neo4j-guard/how-to/make-neo4j-read-only-for-llm): Guard the Neo4j driver the LLM uses with guard(). Read mode is the default.
+- [How to make Neo4j read-only for an LLM](https://docs.zices.com/neo4j-guard/how-to/make-neo4j-read-only-for-llm): Guard the Neo4j driver the LLM uses with guard(). Read mode is the default. Compatible with Neo4j Community Edition, Enterprise Edition and Aura.
 - [How to block unsafe Cypher queries in LangChain Neo4jGraph](https://docs.zices.com/neo4j-guard/how-to/block-unsafe-cypher-queries-langchain-neo4jgraph): Guard the driver of Neo4jGraph with guard(graph._driver).
 - [How to block unsafe Cypher queries in the Neo4j MCP server](https://docs.zices.com/neo4j-guard/how-to/block-unsafe-cypher-queries-neo4j-mcp-server): Guard the driver passed to create_mcp_server() in mcp-neo4j-cypher.
-- [API reference](https://docs.zices.com/neo4j-guard/api-reference): Signatures, parameters, defaults and errors of neo4j-guard.
+- [neo4j-guard API reference](https://docs.zices.com/neo4j-guard/api-reference): Signatures, parameters, defaults and errors of neo4j-guard.

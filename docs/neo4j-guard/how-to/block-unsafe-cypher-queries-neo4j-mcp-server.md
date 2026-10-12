@@ -35,6 +35,12 @@ async def main() -> None:
 asyncio.run(main())
 ```
 
+`read_only=True` removes the `write_neo4j_cypher` tool and rejects queries that Neo4j classifies as writes. The guarded driver also blocks:
+
+- APOC and other procedures, except entries in `allow`.
+- `LOAD CSV`, which reads files and URLs.
+- Labels and properties in `disallow`, in queries and in returned records.
+
 ## Add the server to the MCP client
 
 Run `server.py` instead of the `mcp-neo4j-cypher` command:
@@ -49,11 +55,3 @@ Run `server.py` instead of the `mcp-neo4j-cypher` command:
   }
 }
 ```
-
-## Compare with `read_only`
-
-The server's `read_only` option removes the `write_neo4j_cypher` tool and rejects queries that Neo4j classifies as writes. The guarded driver also blocks:
-
-- APOC and other procedures, except entries in `allow`.
-- `LOAD CSV`, which reads files and URLs.
-- Labels and properties in `disallow`, in queries and in returned records.
