@@ -15,7 +15,7 @@ export default {
       'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
-        docs: {routeBasePath: '/'},
+        docs: {routeBasePath: '/', sidebarCollapsed: false},
         blog: false,
       }),
     ],
