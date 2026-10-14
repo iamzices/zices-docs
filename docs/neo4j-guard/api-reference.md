@@ -2,7 +2,7 @@
 title: neo4j-guard API reference
 sidebar_label: API reference
 description: Signatures, parameters, defaults and errors of neo4j-guard.
-sidebar_position: 5
+sidebar_position: 6
 ---
 
 ## `guard()`

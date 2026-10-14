@@ -2,7 +2,7 @@
 title: neo4j-guard quick start
 sidebar_label: Quick start
 description: Install neo4j-guard, guard a Neo4j driver and block a write query.
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 Requires Python 3.10+ and the `neo4j` driver 5.8+.

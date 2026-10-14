@@ -22,8 +22,3 @@ except GuardError as error:
 ```
 
 It works with the sync and async Neo4j drivers (5.8+), LangChain's `Neo4jGraph` and the Neo4j MCP server. It is compatible with Neo4j Community Edition, Enterprise Edition and Aura.
-
-## How it works
-
-- Queries are parsed with Neo4j's Cypher 25 grammar. Admin commands, unknown clauses and invalid Cypher are blocked, and a blocked query is never sent.
-- Records are checked for blocked labels and properties before the driver returns them.
