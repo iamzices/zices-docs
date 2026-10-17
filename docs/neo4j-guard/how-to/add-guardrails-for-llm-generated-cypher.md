@@ -4,7 +4,7 @@ description: Guard the Neo4j driver with guard() and run the LLM's queries throu
 sidebar_position: 1
 ---
 
-To add guardrails for LLM-generated Cypher, guard the Neo4j driver with `guard()` and run the LLM's queries through it. Blocked queries raise `GuardError` and are never sent.
+To add guardrails for LLM-generated Cypher, guard the Neo4j driver with `guard()` from `neo4j-guard`.
 
 ## Install
 
@@ -18,19 +18,19 @@ pip install neo4j-guard
 from neo4j import GraphDatabase
 from neo4j_guard import GuardError, guard
 
-driver = guard(GraphDatabase.driver("neo4j://localhost:7687", auth=("neo4j", "password")))
+driver = guard(
+    GraphDatabase.driver(URL, auth=AUTH)
+)
 
 try:
-    driver.execute_query("MATCH (p:Person) DETACH DELETE p")
+    driver.execute_query("CREATE (:Person {name: 'Ada'})")
 except GuardError as error:
-    print(error)  # DELETE is not allowed in read mode
+    print(error)  # CREATE is not allowed in read mode
 ```
-
-Queries are parsed with Neo4j's Cypher 25 grammar, not matched against keywords. A `DELETE` inside a string is allowed, and a `DELETE` inside a `CALL { }` subquery is blocked.
 
 ## Return blocked queries to the LLM
 
-Catch `GuardError` in the tool that runs the LLM's queries and return the message. The message says what was blocked, so the LLM can rewrite the query.
+Catch `GuardError` in the tool that runs the LLM's queries and return the message. The message says what was blocked and why, so the LLM can rewrite the query.
 
 ```python
 from neo4j import GraphDatabase

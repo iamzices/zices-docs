@@ -4,10 +4,10 @@
 
 ## neo4j-guard
 
-A guardrail for LLM-generated Cypher, built for Neo4j. By default, only read queries are allowed.
+neo4j-guard is a Python library that blocks unsafe Cypher queries before execution. It parses Cypher using ANTLR and Neo4j’s Cypher 25 grammar, then traverses the resulting syntax tree to validate query operations against built-in safety rules.
 
-- [neo4j-guard overview](https://docs.zices.com/neo4j-guard/overview): neo4j-guard is a guardrail for LLM-generated Cypher, built for Neo4j.
-- [Why neo4j-guard?](https://docs.zices.com/neo4j-guard/why-neo4j-guard): neo4j-guard is a guardrail for LLM-generated Cypher that blocks what read-only connections still allow, such as LOAD CSV and APOC procedures. Compatible with Neo4j Community Edition, Enterprise Edition and Aura.
+- [neo4j-guard overview](https://docs.zices.com/neo4j-guard/overview): neo4j-guard is a Python library that blocks unsafe Cypher queries before execution.
+- [Why neo4j-guard?](https://docs.zices.com/neo4j-guard/why-neo4j-guard): neo4j-guard is designed as an agent guardrail. It blocks unsafe queries that read-only connections still allow, such as LOAD CSV and APOC procedures. Compatible with Neo4j Community Edition, Enterprise Edition and Aura.
 - [How neo4j-guard works](https://docs.zices.com/neo4j-guard/how-neo4j-guard-works): neo4j-guard parses each query into a syntax tree with Neo4j's own Cypher grammar and checks every node in it, including subqueries.
 - [neo4j-guard quick start](https://docs.zices.com/neo4j-guard/quick-start): Install neo4j-guard, guard a Neo4j driver and block a write query.
 - [How to add guardrails for LLM-generated Cypher](https://docs.zices.com/neo4j-guard/how-to/add-guardrails-for-llm-generated-cypher): Guard the Neo4j driver with guard() and run the LLM's queries through it.

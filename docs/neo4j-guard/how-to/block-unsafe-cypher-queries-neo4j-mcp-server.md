@@ -4,7 +4,7 @@ description: Guard the driver passed to create_mcp_server() in mcp-neo4j-cypher.
 sidebar_position: 4
 ---
 
-To block unsafe Cypher queries in the Neo4j MCP server, guard the driver passed to `create_mcp_server()` in `mcp-neo4j-cypher`. Blocked queries raise `GuardError` and are never sent.
+To block unsafe Cypher queries in the Neo4j MCP server, guard the driver passed to `create_mcp_server()` in `mcp-neo4j-cypher` with `guard()` from `neo4j-guard`. Blocked queries raise `GuardError` and are never sent.
 
 ## Install
 

