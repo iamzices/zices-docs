@@ -57,6 +57,7 @@ driver = guard(
     disallow=["Person.ssn"],
 )
 
+
 def run_cypher(query: str) -> list[dict] | str:
     """Run a Cypher query with a 5-second timeout and return its records, or why it was blocked."""
     try:
@@ -64,5 +65,4 @@ def run_cypher(query: str) -> list[dict] | str:
             return session.run(Query(query, timeout=5)).data()
     except GuardError as error:
         return f"Query blocked: {error}"
-
 ```

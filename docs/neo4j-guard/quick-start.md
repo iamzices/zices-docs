@@ -19,9 +19,7 @@ pip install neo4j-guard
 from neo4j import GraphDatabase
 from neo4j_guard import GuardError, guard
 
-driver = guard(
-    GraphDatabase.driver(URL, auth=AUTH)
-)
+driver = guard(GraphDatabase.driver(URL, auth=AUTH))
 
 try:
     driver.execute_query("CREATE (:Person {name: 'Ada'})")
