@@ -1,7 +1,6 @@
 ---
 title: neo4j-guard quick start
-sidebar_label: Quick start
-description: Install neo4j-guard, guard a Neo4j driver and block a write query.
+description: Install neo4j-guard, guard a Neo4j driver, and block a write query.
 sidebar_position: 4
 ---
 

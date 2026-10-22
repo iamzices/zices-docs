@@ -1,7 +1,6 @@
 ---
 title: neo4j-guard API reference
-sidebar_label: API reference
-description: Signatures, parameters, defaults and errors of neo4j-guard.
+description: Signatures, parameters, defaults, and errors of neo4j-guard.
 sidebar_position: 6
 ---
 
@@ -13,20 +12,20 @@ guard(driver, mode="read", *, allow=None, disallow=None)
 
 Guard a Neo4j driver so it only runs allowed queries and only returns allowed results.
 
-Every query the driver sends is checked first, through `execute_query`, sessions and transactions. A blocked query raises `GuardError` and is never sent. A blocked result raises `GuardError` while it is read, which rolls back `execute_query` and explicit transactions. An auto-commit query from `session.run` has already run.
+Every query the driver sends is checked first, through `execute_query`, sessions, and transactions. A blocked query raises `GuardError` and is never sent. A blocked result raises `GuardError` while it is read, which rolls back `execute_query` and explicit transactions. An auto-commit query from `session.run` is not rolled back.
 
 **Parameters**
 
-| Name       | Type                                               | Description                                                                                                          |
-| ---------- | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `driver`   | `neo4j.Driver` or `neo4j.AsyncDriver`              | The driver to guard.                                                                                                 |
-| `mode`     | `"read"`, `"write"`, `"readonly"` or `"readwrite"` | The defaults to start from. `"readonly"` and `"readwrite"` are aliases for `"read"` and `"write"`. Default `"read"`. |
-| `allow`    | `list[str]` or `None`                              | Entries to allow on top of the mode's defaults.                                                                      |
-| `disallow` | `list[str]` or `None`                              | Entries to block. They take precedence over `allow`.                                                                 |
+| Name       | Type                                                | Description                                                                                                               |
+| ---------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `driver`   | `neo4j.Driver` or `neo4j.AsyncDriver`               | The driver to guard.                                                                                                      |
+| `mode`     | `"read"`, `"write"`, `"readonly"`, or `"readwrite"` | The mode that sets the defaults. `"readonly"` and `"readwrite"` are aliases for `"read"` and `"write"`. Default `"read"`. |
+| `allow`    | `list[str]` or `None`                               | Entries to allow in addition to the mode's defaults.                                                                      |
+| `disallow` | `list[str]` or `None`                               | Entries to block. They take precedence over `allow`.                                                                      |
 
 **Returns**
 
-The same driver, now guarded.
+The guarded driver.
 
 **Raises**
 
@@ -39,7 +38,7 @@ The same driver, now guarded.
 class GuardError(Exception)
 ```
 
-Raised when a query or its result is blocked, or the query is invalid Cypher. The message describes what was blocked, so it can be returned to the LLM.
+Raised when a query or its result is blocked, or the query is invalid Cypher. The message says what was blocked.
 
 ## Mode defaults
 
@@ -65,6 +64,6 @@ Admin commands are blocked in every mode and cannot be allowed. A leading `EXPLA
 | Label or relationship type | `"Employee"`                        |         | ✓          |
 | Property                   | `"Person.ssn"`                      |         | ✓          |
 
-Clause, procedure and function names ignore case. Labels and properties are case-sensitive, as in Neo4j.
+Clause, procedure, and function names ignore case. Labels and properties are case-sensitive, as in Neo4j.
 
-Blocked labels and properties are checked in the query and in returned nodes, relationships and paths. While a property is blocked, `properties()`, `n {.*}`, `n[key]` and map comprehensions over maps are blocked. While a label is blocked, dynamic labels are blocked.
+Blocked labels and properties are checked in the query and in returned nodes, relationships, and paths. While a property is blocked, `properties()`, `n {.*}`, `n[key]`, and map comprehensions over maps are blocked. While a label is blocked, dynamic labels are blocked.

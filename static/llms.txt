@@ -1,18 +1,26 @@
 # Zices Docs
 
-> Docs for Zices Python libraries.
+> Docs for Zices libraries.
 
 ## neo4j-guard
 
-neo4j-guard is a Python library that blocks unsafe Cypher queries before execution. It parses Cypher using ANTLR and Neo4j’s Cypher 25 grammar, then traverses the resulting syntax tree to validate query operations against built-in safety rules.
+neo4j-guard is a Python library that blocks unsafe Cypher queries before execution. It parses Cypher using ANTLR and Neo4j's Cypher 25 grammar, then traverses the resulting syntax tree to validate query operations against built-in safety rules.
 
-- [neo4j-guard overview](https://docs.zices.com/neo4j-guard/overview): neo4j-guard is a Python library that blocks unsafe Cypher queries before execution.
-- [Why neo4j-guard?](https://docs.zices.com/neo4j-guard/why-neo4j-guard): neo4j-guard is designed as an agent guardrail. It blocks unsafe queries that read-only connections still allow, such as LOAD CSV and APOC procedures. Compatible with Neo4j Community Edition, Enterprise Edition and Aura.
+- [What is neo4j-guard?](https://docs.zices.com/neo4j-guard/overview): neo4j-guard is a Python library that blocks unsafe Cypher queries before execution.
+- [Why neo4j-guard?](https://docs.zices.com/neo4j-guard/why-neo4j-guard): neo4j-guard is designed as an agent guardrail. It blocks unsafe queries that read-only connections still allow, such as LOAD CSV and APOC procedures. Compatible with Neo4j Community Edition, Enterprise Edition, and Aura.
 - [How neo4j-guard works](https://docs.zices.com/neo4j-guard/how-neo4j-guard-works): neo4j-guard parses each query into a syntax tree with Neo4j's own Cypher grammar and checks every node in it, including subqueries.
-- [neo4j-guard quick start](https://docs.zices.com/neo4j-guard/quick-start): Install neo4j-guard, guard a Neo4j driver and block a write query.
+- [neo4j-guard quick start](https://docs.zices.com/neo4j-guard/quick-start): Install neo4j-guard, guard a Neo4j driver, and block a write query.
 - [How to add guardrails for LLM-generated Cypher](https://docs.zices.com/neo4j-guard/how-to/add-guardrails-for-llm-generated-cypher): Guard the Neo4j driver with guard() and run the LLM's queries through it.
-- [How to make Neo4j read-only for an LLM](https://docs.zices.com/neo4j-guard/how-to/make-neo4j-read-only-for-llm): Guard the Neo4j driver the LLM uses with guard(). Read mode is the default. Compatible with Neo4j Community Edition, Enterprise Edition and Aura.
+- [How to make Neo4j read-only for an LLM](https://docs.zices.com/neo4j-guard/how-to/make-neo4j-read-only-for-llm): Guard the Neo4j driver the LLM uses with guard(). Read mode is the default. Compatible with Neo4j Community Edition, Enterprise Edition, and Aura.
 - [How to block unsafe Cypher queries in LangChain Neo4jGraph](https://docs.zices.com/neo4j-guard/how-to/block-unsafe-cypher-queries-langchain-neo4jgraph): Guard the driver of Neo4jGraph with guard(graph._driver).
 - [How to block unsafe Cypher queries in the Neo4j MCP server](https://docs.zices.com/neo4j-guard/how-to/block-unsafe-cypher-queries-neo4j-mcp-server): Guard the driver passed to create_mcp_server() in mcp-neo4j-cypher.
-- [What read-only does — and doesn't — protect when AI agents access Neo4j](https://docs.zices.com/neo4j-guard/how-to/what-read-only-does-and-doesnt-protect-when-ai-agents-access-neo4j): Read-only access blocks writes, but not queries that read sensitive data, send data to another server, fetch instructions or overload the database.
-- [neo4j-guard API reference](https://docs.zices.com/neo4j-guard/api-reference): Signatures, parameters, defaults and errors of neo4j-guard.
+- [What read-only does — and doesn't — protect when AI agents access Neo4j](https://docs.zices.com/neo4j-guard/how-to/what-read-only-does-and-doesnt-protect-when-ai-agents-access-neo4j): Read-only access blocks writes, but not queries that read sensitive data, send data to another server, fetch instructions, or overload the database.
+- [neo4j-guard API reference](https://docs.zices.com/neo4j-guard/api-reference): Signatures, parameters, defaults, and errors of neo4j-guard.
+
+## Chartable
+
+Chartable is an easy to use interactive chart and table JavaScript library built on Plotly.js and Tabulator. Every chart and table has buttons to copy and download its data.
+
+- [What is Chartable?](https://docs.zices.com/chartable/overview): Chartable is an easy to use interactive chart and table JavaScript library built on Plotly.js and Tabulator.
+- [Chartable quick start](https://docs.zices.com/chartable/quick-start): Install Chartable and render a bar chart.
+- [Chartable API reference](https://docs.zices.com/chartable/api-reference): Signatures, parameters, column mapping, and errors of Chartable.

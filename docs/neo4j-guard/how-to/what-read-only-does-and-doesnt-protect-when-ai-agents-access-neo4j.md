@@ -1,6 +1,6 @@
 ---
 title: What read-only does — and doesn't — protect when AI agents access Neo4j
-description: Read-only access blocks writes, but not queries that read sensitive data, send data to another server, fetch instructions or overload the database.
+description: Read-only access blocks writes, but not queries that read sensitive data, send data to another server, fetch instructions, or overload the database.
 sidebar_position: 5
 ---
 
@@ -8,11 +8,11 @@ Read-only access is the usual first safeguard when an AI agent queries Neo4j, an
 
 ## What counts as read-only
 
-There are two common ways to give an agent read-only access. On Enterprise Edition and Aura, the agent connects as a database user whose role grants only read privileges, such as the built-in `reader` role, and Neo4j refuses any write from that user. Community Edition has no roles, so the usual option there is the `read_only` setting of the Neo4j MCP server. It removes the server's write tool and refuses queries that Neo4j classifies as writes.
+There are two common ways to give an agent read-only access. On Enterprise Edition, and Aura, the agent connects as a database user whose role grants only read privileges, such as the built-in `reader` role, and Neo4j refuses any write from that user. Community Edition has no roles, so the usual option there is the `read_only` setting of the Neo4j MCP server. It removes the server's write tool and refuses queries that Neo4j classifies as writes.
 
 ## What read-only protects
 
-Both stop queries that change the graph. Whatever query the agent writes, it cannot create nodes, update properties or delete data. If an injected prompt tells the agent to run `MATCH (n) DETACH DELETE n`, the query fails and the graph is unchanged.
+Both stop queries that change the graph. Whatever query the agent writes, it cannot create nodes, update properties, or delete data. If an injected prompt tells the agent to run `MATCH (n) DETACH DELETE n`, the query fails and the graph is unchanged.
 
 ## What read-only doesn't protect
 
@@ -38,7 +38,7 @@ This brings instructions in. APOC procedures such as `apoc.load.json` also read 
 
 ## How to cover the gaps
 
-The check needs to look at what a query does, not only whether it writes. `neo4j-guard` parses each query before it is sent and allows only safe clauses, procedures and functions. By default, it blocks everything else, including `LOAD CSV` and APOC. It has configurable `allow` and `disallow` lists that override the defaults.
+The check needs to look at what a query does, not only whether it writes. `neo4j-guard` parses each query before it is sent and allows only safe clauses, procedures, and functions. By default, it blocks everything else, including `LOAD CSV` and APOC. It has configurable `allow` and `disallow` lists that override the defaults.
 
 The example below uses both. Install `neo4j-guard`:
 

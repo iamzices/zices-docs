@@ -3,7 +3,7 @@
 /** @type {import('@docusaurus/types').Config} */
 export default {
   title: 'Zices Docs',
-  tagline: 'Docs for Zices Python libraries.',
+  tagline: 'Docs for Zices projects.',
   favicon: 'icon.png',
   url: 'https://docs.zices.com',
   baseUrl: '/',
@@ -15,7 +15,7 @@ export default {
       'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
-        docs: {routeBasePath: '/', sidebarCollapsed: false},
+        docs: {routeBasePath: '/', sidebarPath: './sidebars.js', sidebarCollapsed: false},
         blog: false,
       }),
     ],
