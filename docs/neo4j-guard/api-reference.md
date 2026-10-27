@@ -1,5 +1,5 @@
 ---
-title: neo4j-guard API reference
+title: API reference
 description: Signatures, parameters, defaults, and errors of neo4j-guard.
 sidebar_position: 6
 ---

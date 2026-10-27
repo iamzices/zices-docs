@@ -2,7 +2,7 @@
 
 /** @type {import('@docusaurus/types').Config} */
 export default {
-  title: 'Zices Docs',
+  title: 'Zices',
   tagline: 'Docs for Zices projects.',
   favicon: 'icon.png',
   url: 'https://docs.zices.com',

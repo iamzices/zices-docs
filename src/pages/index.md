@@ -1,5 +1,5 @@
 ---
-title: Zices Docs
+title: Zices
 description: Docs for Zices libraries.
 ---
 

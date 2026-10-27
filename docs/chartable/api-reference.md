@@ -1,5 +1,5 @@
 ---
-title: Chartable API reference
+title: API reference
 description: Signatures, parameters, column mapping, and errors of Chartable.
 sidebar_position: 6
 ---

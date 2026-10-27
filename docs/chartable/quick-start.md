@@ -1,5 +1,5 @@
 ---
-title: Chartable quick start
+title: Quick start
 description: Install Chartable and render a bar chart.
 sidebar_position: 4
 ---
