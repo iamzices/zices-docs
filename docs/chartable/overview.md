@@ -4,7 +4,7 @@ description: Chartable is an easy to use interactive chart and table JavaScript 
 sidebar_position: 1
 ---
 
-Chartable is an easy to use interactive chart and table JavaScript library built on Plotly.js and Tabulator. Every chart and table has buttons to copy and download its data.
+Chartable by [Zices](https://github.com/iamzices) is an easy to use interactive chart and table JavaScript library built on Plotly.js and Tabulator. Every chart and table has buttons to copy and download its data.
 
 ```js
 import { render } from "@iamzices/chartable";

@@ -1,6 +1,6 @@
 ---
 title: Projects by Zices
-description: Documentation for projects by Zices.
+description: Documentation for projects by Zices @iamzices.
 ---
 
 # Projects

@@ -20,9 +20,25 @@ export default {
       }),
     ],
   ],
+  // Tells search engines that every page belongs to Zices (@iamzices).
+  headTags: [
+    {
+      tagName: 'script',
+      attributes: {type: 'application/ld+json'},
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'Zices',
+        alternateName: '@iamzices',
+        url: 'https://docs.zices.com',
+        sameAs: ['https://github.com/iamzices'],
+      }),
+    },
+  ],
   themeConfig: {
+    metadata: [{name: 'author', content: 'Zices (@iamzices)'}],
     navbar: {
-      logo: {alt: 'Zices', src: 'zices.png'},
+      logo: {alt: 'Zices documentation', src: 'zicesdocumentation.png'},
       items: [{href: 'https://github.com/iamzices', label: 'GitHub', position: 'right'}],
     },
   },
