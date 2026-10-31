@@ -1,6 +1,6 @@
 ---
-title: Zices
-description: Docs for Zices libraries.
+title: Projects by Zices
+description: Documentation for projects by Zices.
 ---
 
 # Projects
