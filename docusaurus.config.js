@@ -17,6 +17,7 @@ export default {
       ({
         docs: {routeBasePath: '/', sidebarPath: './sidebars.js', sidebarCollapsed: false},
         blog: false,
+        theme: {customCss: './src/css/custom.css'},
       }),
     ],
   ],

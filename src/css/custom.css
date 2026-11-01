@@ -1,0 +1,7 @@
+/* Show full sidebar labels instead of the theme's 2-line clamp. */
+.menu__link > span {
+  display: block;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+  line-clamp: unset;
+}
