@@ -1,14 +1,16 @@
 ---
-title: What read-only does — and doesn't — protect when AI agents access Neo4j
-description: Read-only access blocks writes, but not queries that read sensitive data, send data to another server, fetch instructions, or overload the database.
-sidebar_position: 5
+title: What read-only doesn't protect when AI agents access Neo4j
+description: Read-only blocks writes, but not queries that read sensitive data, send data out, fetch instructions, or overload Neo4j. neo4j-guard by Zices covers the gaps.
+slug: neo4j-read-only-ai-agents
 ---
 
 Read-only access is the usual first safeguard when an AI agent queries Neo4j, and it does one job: the agent cannot change the data. But changing data is not the only harm a query can do. The agent's queries are written by a language model, from text that other people can control, and many harmful queries never write anything.
 
+<!-- truncate -->
+
 ## What counts as read-only
 
-There are two common ways to give an agent read-only access. On Enterprise Edition, and Aura, the agent connects as a database user whose role grants only read privileges, such as the built-in `reader` role, and Neo4j refuses any write from that user. Community Edition has no roles, so the usual option there is the `read_only` setting of the Neo4j MCP server. It removes the server's write tool and refuses queries that Neo4j classifies as writes.
+There are two common ways to give an agent read-only access. On Enterprise Edition and Aura, the agent connects as a database user whose role grants only read privileges, such as the built-in `reader` role, and Neo4j refuses any write from that user. Community Edition has no roles, so the usual option there is the `read_only` setting of the Neo4j MCP server. It removes the server's write tool and refuses queries that Neo4j classifies as writes.
 
 ## What read-only protects
 
@@ -16,7 +18,7 @@ Both stop queries that change the graph. Whatever query the agent writes, it can
 
 ## What read-only doesn't protect
 
-Read-only asks one question about a query: does it write? A query that only reads passes, whatever else it does. These four queries pass, and each one still causes harm.
+Read-only asks one question about a query: does it write? A query that only reads passes, whatever else it does. These three queries pass, and each one still causes harm.
 
 ```cypher
 MATCH (p:Person) RETURN p.name, p.ssn

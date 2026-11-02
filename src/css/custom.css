@@ -1,7 +1,482 @@
-/* Show full sidebar labels instead of the theme's 2-line clamp. */
+/* List the theme's dark selector too so these mappings beat its dark defaults. */
+:root,
+html[data-theme='dark'] {
+  --zices-bg: #ffffff;
+  --zices-surface: #fafafa;
+  --zices-border: #e4e4e7;
+  --zices-text: #3f3f46;
+  --zices-muted: #71717a;
+  --zices-heading: #09090b;
+  --zices-accent: #09090b;
+  --zices-accent-soft: #f4f4f5;
+  --zices-code-inline: #f4f4f5;
+  --zices-glass: rgba(255, 255, 255, 0.85);
+
+  --zices-text-sm: 0.875rem;
+  --zices-text-base: 1rem;
+  --zices-text-lg: 1.125rem;
+  --zices-text-xl: 1.5rem;
+  --zices-text-2xl: 2rem;
+
+  --ifm-color-primary: var(--zices-accent);
+  --ifm-color-primary-dark: var(--zices-accent);
+  --ifm-color-primary-darker: var(--zices-accent);
+  --ifm-color-primary-darkest: var(--zices-accent);
+  --ifm-color-primary-light: var(--zices-accent);
+  --ifm-color-primary-lighter: var(--zices-accent);
+  --ifm-color-primary-lightest: var(--zices-accent);
+
+  --ifm-background-color: var(--zices-bg);
+  --ifm-background-surface-color: var(--zices-bg);
+  --ifm-font-color-base: var(--zices-text);
+  --ifm-color-content-secondary: var(--zices-muted);
+  --ifm-heading-color: var(--zices-heading);
+  --ifm-color-emphasis-100: var(--zices-surface);
+  --ifm-color-emphasis-200: var(--zices-border);
+  --ifm-color-emphasis-300: var(--zices-border);
+  --ifm-hr-background-color: var(--zices-border);
+
+  --ifm-font-family-base: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --ifm-font-family-monospace: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  --ifm-font-size-base: 100%;
+  --ifm-line-height-base: 1.75;
+  --ifm-heading-font-weight: 600;
+  --ifm-h1-font-size: var(--zices-text-2xl);
+  --ifm-h2-font-size: var(--zices-text-xl);
+  --ifm-h3-font-size: var(--zices-text-lg);
+  --ifm-h4-font-size: var(--zices-text-base);
+  --ifm-h5-font-size: var(--zices-text-sm);
+  --ifm-h6-font-size: var(--zices-text-sm);
+  --ifm-global-radius: 8px;
+  --ifm-global-shadow-lw: none;
+  --ifm-global-shadow-md: none;
+  --ifm-global-shadow-tl: none;
+
+  --ifm-code-font-size: 87.5%;
+  --ifm-code-background: var(--zices-code-inline);
+  --ifm-code-border-radius: 4px;
+  --ifm-code-padding-horizontal: 0.3rem;
+  --ifm-code-padding-vertical: 0.1rem;
+
+  --ifm-navbar-background-color: transparent;
+  --ifm-navbar-shadow: none;
+  --ifm-navbar-height: 3.5rem;
+  --ifm-navbar-padding-horizontal: 1.5rem;
+  --ifm-navbar-item-padding-horizontal: 0.75rem;
+  --ifm-navbar-link-color: var(--zices-muted);
+  --ifm-navbar-link-hover-color: var(--zices-heading);
+
+  --ifm-menu-color: var(--zices-muted);
+  --ifm-menu-color-active: var(--zices-accent);
+  --ifm-menu-color-background-active: var(--zices-accent-soft);
+  --ifm-menu-color-background-hover: transparent;
+  --ifm-menu-link-padding-vertical: 0.375rem;
+  --ifm-menu-link-padding-horizontal: 0.75rem;
+
+  --ifm-table-border-color: var(--zices-border);
+  --ifm-table-stripe-background: transparent;
+  --ifm-table-cell-padding: 0.5rem 0.75rem;
+  --ifm-table-head-color: var(--zices-heading);
+  --ifm-table-head-font-weight: 600;
+}
+
+html[data-theme='dark'] {
+  --zices-bg: #09090b;
+  --zices-surface: #18181b;
+  --zices-border: #27272a;
+  --zices-text: #d4d4d8;
+  --zices-muted: #a1a1aa;
+  --zices-heading: #fafafa;
+  --zices-accent: #fafafa;
+  --zices-accent-soft: #1f1f23;
+  --zices-code-inline: #1f1f23;
+  --zices-glass: rgba(9, 9, 11, 0.85);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Blur a pseudo-element: backdrop-filter on .navbar traps the fixed mobile sidebar inside it. */
+.navbar {
+  border-bottom: 1px solid var(--zices-border);
+}
+.navbar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--zices-glass);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+}
+.navbar__title,
+.navbar__link {
+  font-size: var(--zices-text-sm);
+  font-weight: 500;
+  line-height: 1.5;
+}
+.navbar__title {
+  color: var(--zices-heading);
+}
+.navbar__link--active {
+  color: var(--zices-heading);
+}
+.zices-crumbs {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  font-size: var(--zices-text-sm);
+  font-weight: 500;
+  line-height: 1.5;
+}
+.zices-crumbs .navbar__brand {
+  flex-shrink: 0;
+  margin-right: 0;
+}
+.zices-crumbs:has(.zices-crumb) .navbar__title,
+.zices-crumb {
+  color: var(--zices-muted);
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+.zices-crumb::before {
+  content: '/' / '';
+  margin: 0 0.625rem;
+  color: var(--zices-border);
+}
+.zices-crumbs .navbar__brand:hover .navbar__title,
+.zices-crumb:hover,
+.zices-crumb[aria-current] {
+  color: var(--zices-heading);
+  text-decoration: none;
+}
+.zices-crumb[aria-current] {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Hide breadcrumbs in the mobile menu header, which reuses the header title. */
+.navbar-sidebar .zices-crumb {
+  display: none;
+}
+.navbar-sidebar .zices-crumbs .navbar__title {
+  color: var(--zices-heading);
+}
+.navbar svg[class*='iconExternalLink'] {
+  display: none;
+}
+/* Drive the knob and icon from html[data-theme] so they are right before React hydrates. */
+.zices-theme-switch {
+  position: relative;
+  width: 2.75rem;
+  height: 1.5rem;
+  margin-left: 0.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--zices-border);
+  cursor: pointer;
+}
+.zices-theme-switch__knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--zices-bg);
+  color: var(--zices-heading);
+  transition: transform 0.2s;
+}
+.zices-theme-switch svg {
+  width: 0.75rem;
+  height: 0.75rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.zices-theme-switch__moon,
+[data-theme='dark'] .zices-theme-switch__sun {
+  display: none;
+}
+[data-theme='dark'] .zices-theme-switch__moon {
+  display: block;
+}
+[data-theme='dark'] .zices-theme-switch__knob {
+  transform: translateX(1.25rem);
+}
+.zices-theme-switch:focus-visible {
+  outline: 2px solid var(--zices-accent);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .zices-theme-switch__knob {
+    transition: none;
+  }
+}
+/* Keep the mobile menu opaque; the navbar is transparent for the glass. */
+.navbar-sidebar {
+  background: var(--zices-bg);
+}
+
+.theme-doc-sidebar-container {
+  border-right: 0 !important;
+}
+.theme-doc-sidebar-container .menu {
+  padding: 0;
+}
+/* Align sidebar labels with the header title. */
+.theme-doc-sidebar-menu {
+  padding: 1rem calc(var(--ifm-navbar-padding-horizontal) - var(--ifm-menu-link-padding-horizontal));
+  font-size: var(--zices-text-sm);
+}
+.sidebar-library {
+  padding: 0 var(--ifm-menu-link-padding-horizontal);
+  margin-bottom: 0.75rem;
+  color: var(--zices-heading);
+  font-size: var(--zices-text-base);
+  font-weight: 600;
+}
+.menu__link {
+  border-radius: 6px;
+  line-height: 1.45;
+}
+.menu__link:hover {
+  color: var(--zices-heading);
+}
+.menu__link--active,
+.menu__link--active:hover {
+  color: var(--zices-accent);
+  font-weight: 500;
+}
+/* Undo the theme's 2-line clamp on sidebar labels. */
 .menu__link > span {
   display: block;
   overflow: visible;
   -webkit-line-clamp: unset;
   line-clamp: unset;
+}
+
+/* Cap line length; the extra .row beats the theme's 75% !important. */
+.row > [class*='docItemCol'] {
+  max-width: 48rem !important;
+}
+.blog-wrapper .row {
+  justify-content: center;
+}
+.blog-wrapper main.col {
+  max-width: 48rem;
+  margin-left: 0;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.02em;
+}
+.markdown h1:first-child {
+  --ifm-h1-font-size: var(--zices-text-2xl);
+  margin-bottom: 1.5rem;
+}
+.markdown > h2 {
+  --ifm-h2-font-size: var(--zices-text-xl);
+  margin-top: 3rem;
+}
+.markdown > h3 {
+  --ifm-h3-font-size: var(--zices-text-lg);
+  margin-top: 2rem;
+}
+.container article header h1 {
+  font-size: var(--zices-text-2xl);
+}
+h1 code,
+h2 code,
+h3 code {
+  padding: 0;
+  background: none;
+  font-size: 0.9em;
+}
+.markdown a {
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--zices-accent) 30%, transparent);
+  text-underline-offset: 3px;
+}
+.markdown a:hover {
+  text-decoration-color: currentColor;
+}
+
+code {
+  border: 0;
+}
+
+.theme-code-block {
+  border-radius: 10px;
+  overflow: hidden;
+}
+/* Border dark code blocks so they stand out from the dark page. */
+[data-theme='dark'] .theme-code-block {
+  border: 1px solid var(--zices-border);
+}
+.theme-code-block code {
+  color: inherit;
+  font-size: var(--zices-text-sm);
+  font-weight: 400;
+  line-height: 1.7;
+}
+.theme-code-block button {
+  border: 0;
+  background: rgba(255, 255, 255, 0.08);
+  color: #e6edf3;
+}
+
+.markdown table {
+  font-size: var(--zices-text-sm);
+}
+.markdown th {
+  background: var(--zices-surface);
+  text-align: left;
+}
+
+.docs-doc-page .pagination-nav,
+.blog-post-page .pagination-nav {
+  display: none;
+}
+
+/* Hide the table of contents column and its mobile dropdown. */
+.col:has(> div > .table-of-contents),
+.theme-doc-toc-mobile {
+  display: none;
+}
+
+.container article header div:has(> time) {
+  color: var(--zices-muted);
+  font-size: var(--zices-text-sm);
+}
+.mdx-page article,
+.zices-blog-list {
+  max-width: 46rem;
+  margin: 0 auto;
+}
+.mdx-page article h1,
+.zices-blog-list h1 {
+  margin-bottom: 2.5rem;
+}
+
+/* Style the home page list (src/pages/index.md) as project rows. */
+.mdx-page article > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.mdx-page article > ul > li {
+  position: relative;
+  margin: 0 0 1.75rem;
+}
+.mdx-page article > ul p {
+  margin: 0;
+}
+.mdx-page article > ul p:first-child::after {
+  content: '→' / '';
+  display: inline-block;
+  margin-left: 0.375rem;
+  color: var(--zices-muted);
+  transition: color 0.15s, transform 0.15s;
+}
+.mdx-page article > ul > li:hover p:first-child::after {
+  color: var(--zices-heading);
+  transform: translateX(3px);
+}
+.mdx-page article > ul p + p {
+  margin-top: 0.25rem;
+  color: var(--zices-muted);
+  font-size: var(--zices-text-sm);
+  line-height: 1.6;
+}
+
+/* Stretch each title link over its whole entry. */
+.mdx-page article > ul a,
+.zices-timeline a {
+  color: var(--zices-heading);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s;
+}
+.mdx-page article > ul a::after,
+.zices-timeline a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+.mdx-page article > ul > li:hover a,
+.zices-timeline li:hover a {
+  text-decoration-color: currentColor;
+}
+.mdx-page article > ul a:focus-visible,
+.zices-timeline a:focus-visible {
+  outline: none;
+}
+.mdx-page article > ul > li:has(a:focus-visible),
+.zices-timeline li:has(a:focus-visible) {
+  outline: 2px solid var(--zices-accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.zices-timeline-month {
+  margin: 0 0 1.5rem;
+  font-size: var(--zices-text-sm);
+  letter-spacing: 0;
+}
+.zices-timeline {
+  list-style: none;
+  margin: 0 0 1.5rem 0.375rem;
+  padding: 0 0 0 1.75rem;
+  border-left: 1px solid var(--zices-border);
+}
+.zices-timeline li {
+  position: relative;
+  padding-bottom: 1.5rem;
+}
+.zices-timeline li:last-child {
+  padding-bottom: 0.5rem;
+}
+/* Ring the dot in the page color so it cuts through the rail. */
+.zices-timeline li::before {
+  content: '';
+  position: absolute;
+  top: calc(0.75rem - 6.5px);
+  left: calc(-1.75rem - 7px);
+  width: 13px;
+  height: 13px;
+  box-sizing: border-box;
+  border: 3px solid var(--zices-bg);
+  border-radius: 50%;
+  background: var(--zices-muted);
+  transition: background 0.15s;
+}
+.zices-timeline li:hover::before {
+  background: var(--zices-accent);
+}
+.zices-timeline time {
+  display: block;
+  color: var(--zices-muted);
+  font-size: var(--zices-text-sm);
+  line-height: 1.5rem;
+  font-variant-numeric: tabular-nums;
+}
+.zices-timeline a {
+  display: block;
+  margin-top: 0.125rem;
+  line-height: 1.5;
 }

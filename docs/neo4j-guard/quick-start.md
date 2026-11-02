@@ -1,6 +1,6 @@
 ---
 title: Quick start
-description: Install neo4j-guard, guard a Neo4j driver, and block a write query.
+description: Install neo4j-guard by Zices, guard a Neo4j driver with guard(), and block a write query.
 sidebar_position: 4
 ---
 
@@ -25,3 +25,8 @@ try:
 except GuardError as error:
     print(error)  # CREATE is not allowed in read mode
 ```
+
+## Next steps
+
+- [How to block unsafe Cypher queries in LangChain Neo4jGraph](/blog/block-unsafe-cypher-queries-langchain-neo4jgraph)
+- [How to block unsafe Cypher queries in the Neo4j MCP server](/blog/block-unsafe-cypher-queries-neo4j-mcp-server)

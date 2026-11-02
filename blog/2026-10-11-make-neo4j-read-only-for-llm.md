@@ -1,10 +1,12 @@
 ---
 title: How to make Neo4j read-only for an LLM
-description: Guard the Neo4j driver the LLM uses with guard(). Read mode is the default. Compatible with Neo4j Community Edition, Enterprise Edition, and Aura.
-sidebar_position: 2
+description: Guard the Neo4j driver the LLM uses with guard() from neo4j-guard by Zices. Read mode is the default. Compatible with Neo4j Community Edition, Enterprise Edition, and Aura.
+slug: make-neo4j-read-only-for-llm
 ---
 
 To make Neo4j read-only for an LLM, guard the Neo4j driver the LLM uses with `guard()` from `neo4j-guard`.
+
+<!-- truncate -->
 
 ## Install
 

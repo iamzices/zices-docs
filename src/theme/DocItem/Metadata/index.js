@@ -1,9 +1,11 @@
-import React from 'react';
 import {PageMetadata} from '@docusaurus/theme-common';
 import {useDoc, useDocsSidebar} from '@docusaurus/plugin-content-docs/client';
 
-// Browser tab title is "<page> | <library>", where the library is the sidebar key in sidebars.js.
-// Titles that already name the library ("What is Chartable?") are left alone.
+/**
+ * Render a docs page's metadata with the browser tab title "<page> | <library>".
+ *
+ * @returns The page metadata.
+ */
 export default function DocItemMetadata() {
   const {metadata, frontMatter, assets} = useDoc();
   const library = useDocsSidebar().name;

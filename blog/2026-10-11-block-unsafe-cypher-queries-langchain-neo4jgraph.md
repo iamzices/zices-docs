@@ -1,10 +1,12 @@
 ---
 title: How to block unsafe Cypher queries in LangChain Neo4jGraph
-description: Guard the driver of Neo4jGraph with guard(graph._driver).
-sidebar_position: 3
+description: Guard the driver of Neo4jGraph with guard(graph._driver) from neo4j-guard by Zices. Dangerous queries raise GuardError and are never sent.
+slug: block-unsafe-cypher-queries-langchain-neo4jgraph
 ---
 
 To block unsafe Cypher queries in LangChain Neo4jGraph, guard the driver of `Neo4jGraph` with `guard(graph._driver)` from `neo4j-guard`. Blocked queries raise `GuardError` and are never sent.
+
+<!-- truncate -->
 
 ## Install
 

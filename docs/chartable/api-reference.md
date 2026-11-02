@@ -1,6 +1,6 @@
 ---
 title: API reference
-description: Signatures, parameters, column mapping, and errors of Chartable.
+description: "API reference for Chartable by Zices: render(), ChartableSpec, Cell, column mapping, and copy and CSV download."
 sidebar_position: 6
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: What is Chartable?
-description: Chartable is an easy to use interactive chart and table JavaScript library built on Plotly.js and Tabulator.
+description: Chartable by Zices is an easy to use JavaScript library that draws interactive charts and tables, with copy and CSV download, built on Plotly.js and Tabulator.
 sidebar_position: 1
 ---
 

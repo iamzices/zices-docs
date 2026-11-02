@@ -1,6 +1,6 @@
 ---
 title: API reference
-description: Signatures, parameters, defaults, and errors of neo4j-guard.
+description: "API reference for neo4j-guard by Zices: guard(), GuardError, mode defaults, and the allow and disallow entries."
 sidebar_position: 6
 ---
 

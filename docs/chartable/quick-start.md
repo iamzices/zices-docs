@@ -1,6 +1,6 @@
 ---
 title: Quick start
-description: Install Chartable and render a bar chart.
+description: Install Chartable by Zices and render an interactive bar chart with render().
 sidebar_position: 4
 ---
 
