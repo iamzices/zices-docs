@@ -12,5 +12,3 @@ description: Documentation for neo4j-guard and Chartable, the Python and JavaScr
 - [Chartable](/chartable/overview)
 
   A JavaScript library that makes interactive data visualization easy to use, built on Plotly.js and Tabulator. It draws charts and tables, with buttons to copy and download the data.
-
-- [Blog](/blog)

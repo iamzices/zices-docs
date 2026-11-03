@@ -7,7 +7,7 @@
 neo4j-guard by Zices is a Python library that blocks unsafe Cypher queries before execution. It parses Cypher using ANTLR and Neo4j's Cypher 25 grammar, then traverses the resulting syntax tree to validate query operations against built-in safety rules.
 
 - [What is neo4j-guard?](https://docs.zices.com/neo4j-guard/overview): neo4j-guard by Zices is a Python library that blocks unsafe Cypher queries before they reach Neo4j. Read-only by default.
-- [Quick start](https://docs.zices.com/neo4j-guard/quick-start): Install neo4j-guard by Zices, guard a Neo4j driver with guard(), and block a write query.
+- [Quick start](https://docs.zices.com/neo4j-guard/quick-start): Install neo4j-guard by Zices and guard a Neo4j driver, LangChain Neo4jGraph, or the Neo4j MCP server with guard().
 - [API reference](https://docs.zices.com/neo4j-guard/api-reference): API reference for neo4j-guard by Zices: guard(), GuardError, mode defaults, and the allow and disallow entries.
 
 ## Chartable
@@ -21,7 +21,6 @@ Chartable by Zices is an easy to use interactive chart and table JavaScript libr
 ## Blog
 
 - [How to add guardrails for LLM-generated Cypher](https://docs.zices.com/blog/add-guardrails-for-llm-generated-cypher): Guard the Neo4j driver with guard() from neo4j-guard by Zices, then run the LLM's queries through it. Dangerous queries raise GuardError.
-- [How to make Neo4j read-only for an LLM](https://docs.zices.com/blog/make-neo4j-read-only-for-llm): Guard the Neo4j driver the LLM uses with guard() from neo4j-guard by Zices. Read mode is the default. Compatible with Neo4j Community Edition, Enterprise Edition, and Aura.
-- [How to block unsafe Cypher queries in LangChain Neo4jGraph](https://docs.zices.com/blog/block-unsafe-cypher-queries-langchain-neo4jgraph): Guard the driver of Neo4jGraph with guard(graph._driver) from neo4j-guard by Zices. Dangerous queries raise GuardError and are never sent.
-- [How to block unsafe Cypher queries in the Neo4j MCP server](https://docs.zices.com/blog/block-unsafe-cypher-queries-neo4j-mcp-server): Guard the driver passed to create_mcp_server() in mcp-neo4j-cypher with guard() from neo4j-guard by Zices. Dangerous queries are never sent.
 - [What read-only doesn't protect when AI agents access Neo4j](https://docs.zices.com/blog/neo4j-read-only-ai-agents): Read-only blocks writes, but not queries that read sensitive data, send data out, fetch instructions, or overload Neo4j. neo4j-guard by Zices covers the gaps.
+- [Moment by Zices Is a Privacy-First, Peer-to-Peer Chat That Disappears When You Leave](https://docs.zices.com/blog/moment-privacy-first-peer-to-peer-chat): Moment by Zices is a private, temporary peer-to-peer chat room with file sharing. There is no login, and Moment never sees what you send.
+- [Moment by Zices Might Be the Easiest Way to Move Anything Between Two Computers](https://docs.zices.com/blog/moment-move-anything-between-two-computers): Open a Moment by Zices room on one computer and its short link on the other to easily share files. Moment is a private, temporary peer-to-peer chat room.
