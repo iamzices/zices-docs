@@ -1,5 +1,5 @@
 ---
-title: Projects
+title: "Projects: neo4j-guard, Chartable, and more"
 description: Documentation for neo4j-guard and Chartable, the Python and JavaScript libraries by Zices @iamzices.
 ---
 

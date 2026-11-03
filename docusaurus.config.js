@@ -74,6 +74,7 @@ export default {
         ],
       },
     },
+    image: 'social-card.png',
     metadata: [{name: 'author', content: 'Zices (@iamzices)'}],
     navbar: {
       title: 'docs.zices.com',
