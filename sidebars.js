@@ -5,6 +5,7 @@ const library = (name, dirName) => [
 ];
 
 export default {
+  'DocFGP': library('DocFGP', 'docfgp'),
   'neo4j-guard': library('neo4j-guard', 'neo4j-guard'),
-  Chartable: library('Chartable', 'chartable'),
+  'Chartable': library('Chartable', 'chartable'),
 };

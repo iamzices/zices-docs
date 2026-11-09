@@ -1,6 +1,14 @@
 # Zices
 
-> Documentation for neo4j-guard and Chartable, the Python and JavaScript libraries by Zices @iamzices.
+> Documentation for DocFGP, neo4j-guard, and Chartable, the Python and JavaScript libraries by Zices @iamzices.
+
+## DocFGP
+
+DocFGP by Zices is a Python library that creates text and visual fingerprints for finding duplicates, near-duplicates, and shared passages across document formats. It supports exact, near-duplicate, and partial-match retrieval, with OCR and visual fingerprints for scanned documents.
+
+- [What is DocFGP?](https://docs.zices.com/docfgp/overview): DocFGP by Zices is a Python library that creates text and visual fingerprints for finding duplicates, near-duplicates, and shared passages across document formats.
+- [Quick start](https://docs.zices.com/docfgp/quick-start): Install DocFGP by Zices, fingerprint a PDF, DOCX, PPTX, or scanned document, and compare fingerprints to find duplicates, near-duplicates, and shared passages.
+- [API reference](https://docs.zices.com/docfgp/api-reference): API reference for DocFGP by Zices: Fingerprinter, DocumentFingerprint, FingerprintConfig, FingerprintError, supported formats, and the docfgp CLI.
 
 ## neo4j-guard
 
