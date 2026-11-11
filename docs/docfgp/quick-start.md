@@ -4,12 +4,18 @@ description: Install DocFGP by Zices, fingerprint a PDF, DOCX, PPTX, or scanned 
 sidebar_position: 4
 ---
 
-Requires Python 3.11+.
+Requires Python 3.11+ on Linux (x86_64, aarch64), macOS, or Windows (x64).
 
 ## Install
 
 ```sh
 pip install docfgp
+```
+
+English and other Latin-script languages work without extra models. For other scripts, such as Chinese, Arabic, or Cyrillic, install the language models:
+
+```sh
+pip install "docfgp[languages]"
 ```
 
 ## Fingerprint a PDF
@@ -26,14 +32,6 @@ print(record["exact_hashes"]["raw_sha256"])
 
 ## Fingerprint a DOCX or PPTX file
 
-Install [office2pdf](https://github.com/developer0hye/office2pdf), or download a [prebuilt binary](https://github.com/developer0hye/office2pdf/releases) and add it to your `PATH`:
-
-```sh
-cargo install office2pdf-cli
-```
-
-office2pdf is required for DOCX and PPTX. Without it, they raise `FingerprintError`.
-
 ```python
 from docfgp import Fingerprinter
 
@@ -44,7 +42,7 @@ print(fingerprint.source_format)  # docx
 
 ## Fingerprint a scanned document
 
-Install [Tesseract 5](https://tesseract-ocr.github.io/tessdoc/Installation.html) and add it to your `PATH`. OCR failure leaves a warning and a visual-only result, so inspect `quality.status`, page provenance, and warnings before using a fingerprint, as in [Quality status](./api-reference.md#quality-status).
+Scanned pages and images are read with OCR. Set `ocr_language` in `FingerprintConfig` for languages other than English, as in `"chi_sim"` or `"eng+deu"`. OCR failure leaves a warning and a visual-only result, so inspect `quality.status`, page provenance, and warnings before using a fingerprint, as in [Quality status](./api-reference.md#quality-status).
 
 ```python
 from docfgp import Fingerprinter

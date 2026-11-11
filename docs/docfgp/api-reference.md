@@ -18,6 +18,10 @@ Generate stateless document fingerprints.
 | -------- | ----------------------------- | -------------------------------------------------------------------- |
 | `config` | `FingerprintConfig` or `None` | Optional bounded processing settings. Default `FingerprintConfig()`. |
 
+**Raises**
+
+- `FingerprintError`: A configured OCR model is not installed.
+
 ## `Fingerprinter.fingerprint()`
 
 ```python
@@ -58,7 +62,6 @@ class DocumentFingerprint:
     shingle_counts: tuple[tuple[str, int], ...]
     shingle_total: int
     shingle_unique: int
-    passage_anchors: tuple[str, ...]
     page_hashes: tuple[PageHash, ...]
     quality: Quality
     parameters: Mapping[str, int | float | str | bool]
@@ -80,12 +83,11 @@ Serializable, versioned document fingerprint.
 | `shingle_counts`    | Hashed five-word shingle occurrence counts.                                             |
 | `shingle_total`     | Total five-word shingle occurrences.                                                    |
 | `shingle_unique`    | Distinct five-word shingle hashes.                                                      |
-| `passage_anchors`   | Selected passage fingerprints.                                                          |
 | `page_hashes`       | Per-page visual hashes and lookup keys, as [`PageHash`](#pagehash) entries.             |
 | `quality`           | Evidence status, page provenance, and warnings, as a [`Quality`](#quality).             |
 | `parameters`        | Parameters used to construct the fingerprint.                                           |
 
-Each MinHash sketch has 512 components. Empty feature sets yield empty sketches and lookup-key groups. A contiguous passage of at least 36 identical normalized words shares a passage anchor.
+Each MinHash sketch has 512 components. Empty feature sets yield empty sketches and lookup-key groups. A contiguous passage of at least 36 identical normalized words shares a `passage` lookup key.
 
 ## `DocumentFingerprint.to_dict()`
 
@@ -152,7 +154,7 @@ Whether the fingerprint carries text, visual, or insufficient evidence.
 ```python
 class PageQuality:
     page: int
-    source: Literal["native", "ocr", "none"]
+    source: Literal["native", "ocr", "native_and_ocr", "none"]
     text_chars: int
     native_text_chars: int
     ocr_attempted: bool
@@ -166,7 +168,7 @@ Extraction provenance for one page or image frame.
 | Name                | Description                                 |
 | ------------------- | ------------------------------------------- |
 | `page`              | One-based page number.                      |
-| `source`            | Source of the selected page text.           |
+| `source`            | Source of the selected page text. `native_and_ocr` when OCR adds text found in images to native PDF text. |
 | `text_chars`        | Characters of selected page text.           |
 | `native_text_chars` | Characters of native text.                  |
 | `ocr_attempted`     | Whether OCR was attempted.                  |
@@ -181,14 +183,13 @@ class FingerprintConfig:
     max_file_bytes: int = 50_000_000
     max_pages: int = 200
     max_page_pixels: int = 8_000_000
+    max_image_pixels: int = 40_000_000
     max_text_chars: int = 2_000_000
-    max_features: int = 200_000
     render_dpi: int = 96
     ocr_dpi: int = 180
     process_timeout: float = 60.0
     max_document_seconds: float = 180.0
-    office2pdf_path: str | Path | None = None
-    tesseract_path: str | Path | None = None
+    tessdata_path: str | Path | None = None
     ocr_language: str = "eng"
     include_shingle_counts: bool = True
 ```
@@ -199,21 +200,20 @@ Configure bounded document processing. Services accepting untrusted uploads shou
 | ------------------------ | ----------------------------------------------------------------------- |
 | `max_file_bytes`         | Maximum original input size.                                            |
 | `max_pages`              | Maximum PDF pages or image frames.                                      |
-| `max_page_pixels`        | Maximum pixels decoded for one page or image.                           |
+| `max_page_pixels`        | Maximum pixels rendered for one PDF page.                               |
+| `max_image_pixels`       | Maximum pixels decoded for one image frame.                             |
 | `max_text_chars`         | Maximum total extracted characters.                                     |
-| `max_features`           | Maximum distinct word or character shingles.                            |
 | `render_dpi`             | Visual rendering resolution, bounded by `max_page_pixels`. At most 300. |
 | `ocr_dpi`                | OCR rendering resolution, bounded by `max_page_pixels`. At most 300.    |
-| `process_timeout`        | Seconds allowed for each external process.                              |
+| `process_timeout`        | Seconds allowed for each conversion or OCR call.                        |
 | `max_document_seconds`   | Cooperative deadline checked between processing stages.                 |
-| `office2pdf_path`        | Optional explicit converter executable.                                 |
-| `tesseract_path`         | Optional explicit OCR executable.                                       |
-| `ocr_language`           | Installed Tesseract language codes.                                     |
+| `tessdata_path`          | Optional directory of Tesseract language models.                        |
+| `ocr_language`           | [Tesseract language codes](https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html), joined with `+`, as in `eng+deu`. |
 | `include_shingle_counts` | Include sorted exact occurrence counts.                                 |
 
 **Raises**
 
-- `ValueError`: A processing limit is not positive, a rendering resolution exceeds 300 DPI, `ocr_language` is empty, or an executable path is not a path.
+- `ValueError`: A processing limit is not positive, a rendering resolution exceeds 300 DPI, `ocr_language` is empty, or `tessdata_path` is not a path.
 
 ## `FingerprintError`
 
@@ -254,16 +254,18 @@ Raised for invalid input, unavailable dependencies, or incomplete processing. Th
 
 ## Supported formats
 
-| Format | Extensions      | `source_format` | Dependency                      |
-| ------ | --------------- | --------------- | ------------------------------- |
-| PDF    | `.pdf`          | `"pdf"`         | Tesseract when OCR is attempted |
-| DOCX   | `.docx`         | `"docx"`        | office2pdf                      |
-| PPTX   | `.pptx`         | `"pptx"`        | office2pdf                      |
-| PNG    | `.png`          | `"png"`         | Tesseract                       |
-| JPEG   | `.jpg`, `.jpeg` | `"jpeg"`        | Tesseract                       |
-| TIFF   | `.tif`, `.tiff` | `"tiff"`        | Tesseract                       |
-| BMP    | `.bmp`          | `"bmp"`         | Tesseract                       |
-| WebP   | `.webp`         | `"webp"`        | Tesseract                       |
+| Format | Extensions      | `source_format` |
+| ------ | --------------- | --------------- |
+| PDF    | `.pdf`          | `"pdf"`         |
+| DOCX   | `.docx`         | `"docx"`        |
+| PPTX   | `.pptx`         | `"pptx"`        |
+| PNG    | `.png`          | `"png"`         |
+| JPEG   | `.jpg`, `.jpeg` | `"jpeg"`        |
+| TIFF   | `.tif`, `.tiff` | `"tiff"`        |
+| BMP    | `.bmp`          | `"bmp"`         |
+| WebP   | `.webp`         | `"webp"`        |
+
+OCR in non-Latin scripts requires `docfgp[languages]`.
 
 A file needs a supported extension and a valid format signature. An image's `source_format` is its detected format, so a PNG named `scan.jpg` is `"png"`. Each image frame counts toward `page_count`. Encrypted Office packages are unsupported.
 
@@ -282,8 +284,7 @@ The command returns `0` on success and `2` on processing errors, which it prints
 | Name                                          | Description                                        |
 | --------------------------------------------- | -------------------------------------------------- |
 | `path`                                        | PDF, DOCX, PPTX, or image path.                    |
-| `--office2pdf OFFICE2PDF`                     | Path to the office2pdf binary.                     |
-| `--tesseract TESSERACT`                       | Path to the Tesseract binary.                      |
-| `--ocr-language OCR_LANGUAGE`                 | Installed Tesseract language codes. Default `eng`. |
+| `--tessdata TESSDATA`                         | Path to Tesseract language models.                 |
+| `--ocr-language OCR_LANGUAGE`                 | Tesseract language codes. Default `eng`.           |
 | `--max-document-seconds MAX_DOCUMENT_SECONDS` | Processing deadline in seconds. Default `180`.     |
 | `--no-shingle-counts`                         | Omit precise overlap counts.                       |

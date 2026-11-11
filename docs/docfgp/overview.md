@@ -35,7 +35,7 @@ DocFGP extracts the text of each page, using OCR for scanned pages, and renders 
 | Is one document substantially contained in another?  | `passage_anchors`, `shingle_counts` | Passage anchors, then hashed-shingle occurrence counts |
 | Do scanned pages look alike?                         | `page_hashes`                       | Per-page perceptual hashes and visual keys             |
 
-The same file and tool versions always produce the same fingerprint. Shared templates, repeated footers, and OCR errors can affect scores. For details and measured results, see the [methodology](https://github.com/iamzices/docfgp-document-fingerprint/blob/main/docs/methodology.md) and [evaluation](https://github.com/iamzices/docfgp-document-fingerprint/blob/main/docs/evaluation.md).
+The same file and tool versions always produce the same fingerprint. Shared templates, repeated footers, and OCR errors can affect scores. For details and measured results, see the [methodology](https://github.com/iamzices/docfgp-document-fingerprint/blob/main/docs/methodology.md).
 
 This is how five files compare with an 800-word PDF. Resemblance estimates how much text two files have in common, and coverage is how much of the compared file appears in the original:
 
