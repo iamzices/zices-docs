@@ -4,7 +4,7 @@ description: DocFGP by Zices is a Python library that creates text and visual fi
 sidebar_position: 1
 ---
 
-DocFGP by [Zices](https://github.com/iamzices) is a Python library that creates text and visual fingerprints for finding duplicates, near-duplicates, and shared passages across document formats. It supports PDF, DOCX, PPTX, PNG, JPEG, TIFF, BMP, and WebP files, including scanned documents, and runs locally on the CPU.
+DocFGP (Document Fingerprint) by [Zices](https://github.com/iamzices) is a Python library that creates text and visual fingerprints for finding duplicates, near-duplicates, and shared passages across document formats. It supports PDF, DOCX, PPTX, PNG, JPEG, TIFF, BMP, and WebP files, including scanned documents, and runs locally on the CPU.
 
 ```python
 from docfgp import Fingerprinter

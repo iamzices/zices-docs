@@ -208,7 +208,7 @@ Configure bounded document processing. Services accepting untrusted uploads shou
 | `process_timeout`        | Seconds allowed for each conversion or OCR call.                        |
 | `max_document_seconds`   | Cooperative deadline checked between processing stages.                 |
 | `tessdata_path`          | Optional directory of Tesseract language models.                        |
-| `ocr_language`           | [Tesseract language codes](https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html), joined with `+`, as in `eng+deu`. |
+| `ocr_language`           | Language codes, as in [Supported languages](#supported-languages), joined with `+`, as in `eng+deu`. |
 | `include_shingle_counts` | Include sorted exact occurrence counts.                                 |
 
 **Raises**
@@ -265,9 +265,137 @@ Raised for invalid input, unavailable dependencies, or incomplete processing. Th
 | BMP    | `.bmp`          | `"bmp"`         |
 | WebP   | `.webp`         | `"webp"`        |
 
-OCR in non-Latin scripts requires `docfgp[languages]`.
-
 A file needs a supported extension and a valid format signature. An image's `source_format` is its detected format, so a PNG named `scan.jpg` is `"png"`. Each image frame counts toward `page_count`. Encrypted Office packages are unsupported.
+
+## Supported languages
+
+The standard install supports these languages:
+
+| Language            | Code       |
+| ------------------- | ---------- |
+| Afrikaans           | `afr`      |
+| Albanian            | `sqi`      |
+| Azerbaijani         | `aze`      |
+| Basque              | `eus`      |
+| Bosnian             | `bos`      |
+| Breton              | `bre`      |
+| Catalan             | `cat`      |
+| Cebuano             | `ceb`      |
+| Corsican            | `cos`      |
+| Croatian            | `hrv`      |
+| Czech               | `ces`      |
+| Danish              | `dan`      |
+| Dutch               | `nld`      |
+| English             | `eng`      |
+| Esperanto           | `epo`      |
+| Estonian            | `est`      |
+| Faroese             | `fao`      |
+| Filipino            | `fil`      |
+| Finnish             | `fin`      |
+| French              | `fra`      |
+| Galician            | `glg`      |
+| German              | `deu`      |
+| Haitian Creole      | `hat`      |
+| Hungarian           | `hun`      |
+| Icelandic           | `isl`      |
+| Indonesian          | `ind`      |
+| Irish               | `gle`      |
+| Italian             | `ita`      |
+| Javanese            | `jav`      |
+| Latin               | `lat`      |
+| Latvian             | `lav`      |
+| Lithuanian          | `lit`      |
+| Luxembourgish       | `ltz`      |
+| Malay               | `msa`      |
+| Maltese             | `mlt`      |
+| Maori               | `mri`      |
+| Norwegian           | `nor`      |
+| Occitan             | `oci`      |
+| Polish              | `pol`      |
+| Portuguese          | `por`      |
+| Quechua             | `que`      |
+| Romanian            | `ron`      |
+| Scottish Gaelic     | `gla`      |
+| Serbian (Latin)     | `srp_latn` |
+| Slovak              | `slk`      |
+| Slovenian           | `slv`      |
+| Spanish             | `spa`      |
+| Sundanese           | `sun`      |
+| Swahili             | `swa`      |
+| Swedish             | `swe`      |
+| Tongan              | `ton`      |
+| Turkish             | `tur`      |
+| Uzbek               | `uzb`      |
+| Welsh               | `cym`      |
+| Western Frisian     | `fry`      |
+| Yoruba              | `yor`      |
+
+The language pack, `pip install "docfgp[languages]"`, supports these languages:
+
+| Language                        | Code           |
+| ------------------------------- | -------------- |
+| Amharic                         | `amh`          |
+| Ancient Greek                   | `grc`          |
+| Arabic                          | `ara`          |
+| Armenian                        | `hye`          |
+| Assamese                        | `asm`          |
+| Azerbaijani (Cyrillic)          | `aze_cyrl`     |
+| Belarusian                      | `bel`          |
+| Bengali                         | `ben`          |
+| Bulgarian                       | `bul`          |
+| Burmese                         | `mya`          |
+| Cherokee                        | `chr`          |
+| Chinese (Simplified)            | `chi_sim`      |
+| Chinese (Simplified, vertical)  | `chi_sim_vert` |
+| Chinese (Traditional)           | `chi_tra`      |
+| Chinese (Traditional, vertical) | `chi_tra_vert` |
+| Dhivehi                         | `div`          |
+| Dzongkha                        | `dzo`          |
+| Georgian                        | `kat`          |
+| Georgian (Old)                  | `kat_old`      |
+| Greek                           | `ell`          |
+| Gujarati                        | `guj`          |
+| Hebrew                          | `heb`          |
+| Hindi                           | `hin`          |
+| Inuktitut                       | `iku`          |
+| Japanese                        | `jpn`          |
+| Japanese (vertical)             | `jpn_vert`     |
+| Kannada                         | `kan`          |
+| Kazakh                          | `kaz`          |
+| Khmer                           | `khm`          |
+| Korean                          | `kor`          |
+| Korean (vertical)               | `kor_vert`     |
+| Kyrgyz                          | `kir`          |
+| Lao                             | `lao`          |
+| Macedonian                      | `mkd`          |
+| Malayalam                       | `mal`          |
+| Marathi                         | `mar`          |
+| Mongolian                       | `mon`          |
+| Nepali                          | `nep`          |
+| Odia                            | `ori`          |
+| Pashto                          | `pus`          |
+| Persian                         | `fas`          |
+| Punjabi                         | `pan`          |
+| Russian                         | `rus`          |
+| Sanskrit                        | `san`          |
+| Serbian (Cyrillic)              | `srp`          |
+| Sindhi                          | `snd`          |
+| Sinhala                         | `sin`          |
+| Syriac                          | `syr`          |
+| Tajik                           | `tgk`          |
+| Tamil                           | `tam`          |
+| Tatar                           | `tat`          |
+| Telugu                          | `tel`          |
+| Thai                            | `tha`          |
+| Tibetan                         | `bod`          |
+| Tigrinya                        | `tir`          |
+| Ukrainian                       | `ukr`          |
+| Urdu                            | `urd`          |
+| Uyghur                          | `uig`          |
+| Uzbek (Cyrillic)                | `uzb_cyrl`     |
+| Yiddish                         | `yid`          |
+
+For other Tesseract models, set `tessdata_path` to a directory that contains them.
 
 ## CLI
 

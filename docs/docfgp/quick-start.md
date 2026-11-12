@@ -12,7 +12,7 @@ Requires Python 3.11+ on Linux (x86_64, aarch64), macOS, or Windows (x64).
 pip install docfgp
 ```
 
-English and other Latin-script languages work without extra models. For other scripts, such as Chinese, Arabic, or Cyrillic, install the language models:
+The standard install supports English and 55 other languages written in the Latin alphabet. For other languages, install the language pack, as in [Supported languages](./api-reference.md#supported-languages):
 
 ```sh
 pip install "docfgp[languages]"
