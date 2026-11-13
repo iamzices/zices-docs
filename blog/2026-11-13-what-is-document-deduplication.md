@@ -1,6 +1,6 @@
 ---
 title: What Is Document Deduplication?
-description: A beginner's guide to document deduplication. Learn what it is, the kinds of duplicate documents, why they matter, how deduplication works step by step, and how to decide what counts as a duplicate.
+description: What document deduplication is, the kinds of duplicate documents, why they matter, and how deduplication works, with examples from DocFGP by Zices.
 slug: what-is-document-deduplication
 ---
 

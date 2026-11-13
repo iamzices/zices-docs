@@ -1,6 +1,6 @@
 ---
 title: How to Find and Remove Near-Duplicate Documents Before Building a RAG Pipeline
-description: A step-by-step guide to removing duplicate and near-duplicate documents from a RAG knowledge base before you chunk and embed. Learn why duplicates hurt retrieval, why built-in deduplication misses them, and how to remove them with DocFGP by Zices.
+description: Why duplicate documents hurt RAG retrieval, and how to remove them before you chunk and embed, step by step, with DocFGP by Zices.
 slug: find-and-remove-near-duplicate-documents-before-rag
 ---
 

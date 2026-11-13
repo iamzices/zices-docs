@@ -1,6 +1,6 @@
 ---
 title: "Document Deduplication: Why It Matters and How to Do It"
-description: A practical guide to running a document deduplication project. Learn what duplicate documents cost, how to write a deduplication policy, and how to find, group, review, and remove duplicates safely, step by step, with DocFGP by Zices.
+description: What duplicate documents cost, and how to run a deduplication project step by step, from policy to safe removal, with DocFGP by Zices.
 slug: document-deduplication-why-it-matters
 ---
 

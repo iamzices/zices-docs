@@ -1,6 +1,6 @@
 ---
 title: Why Near-Duplicate Documents Are Hard to Detect and How to Do It
-description: A guide to the eight reasons near-duplicate documents are hard to detect, from re-saved files and PDF text extraction to OCR errors, unreadable scans, and templates, and the technique that solves each one, with test results from DocFGP by Zices.
+description: Eight reasons near-duplicate documents are hard to detect, from re-saved files to OCR errors and templates, and how DocFGP by Zices handles each one.
 slug: why-near-duplicate-documents-are-hard-to-detect
 ---
 

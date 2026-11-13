@@ -1,6 +1,6 @@
 ---
 title: "How Near-Duplicate Document Detection Works: Shingles, MinHash, and LSH Explained"
-description: A step-by-step guide to how near-duplicate document detection works. Learn how shingles, Jaccard similarity, MinHash, and locality-sensitive hashing (LSH) find similar documents without comparing every pair, with worked examples and code.
+description: How shingles, MinHash, and LSH find near-duplicate documents without comparing every pair, with worked examples and code from DocFGP by Zices.
 slug: how-near-duplicate-document-detection-works
 ---
 

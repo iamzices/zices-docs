@@ -1,6 +1,6 @@
 ---
 title: "Exact vs. Near-Duplicate Documents: What's the Difference?"
-description: A guide to exact and near-duplicate documents. Learn the four kinds of duplicates, how to detect each one, how to measure similarity with resemblance and coverage, and which duplicates to remove for your use case.
+description: The four kinds of duplicate documents, how to detect each one, and which to remove for your use case, with examples from DocFGP by Zices.
 slug: exact-vs-near-duplicate-documents
 ---
 
