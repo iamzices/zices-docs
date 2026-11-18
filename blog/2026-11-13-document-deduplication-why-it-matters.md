@@ -123,7 +123,7 @@ A one-time cleanup doesn't last. Fingerprint new documents when they arrive and 
 [DocFGP](/docfgp/overview) is an open-source Python library that fingerprints PDF, DOCX, PPTX, and image files, including scans, and runs locally. This script follows steps 3 to 6. It fingerprints a folder, finds duplicates in tiers, groups them around the copy to keep, and writes a CSV report with an action for each duplicate.
 
 ```sh
-pip install docfgp
+pip install "docfgp[office]"
 ```
 
 ```python

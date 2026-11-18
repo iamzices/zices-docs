@@ -44,7 +44,7 @@ The versioned `DocumentFingerprint`.
 
 **Raises**
 
-- `FingerprintError`: Input is invalid, limits are exceeded, or processing fails.
+- `FingerprintError`: Input is invalid, DOCX or PPTX support is not installed, limits are exceeded, or processing fails.
 
 ## `DocumentFingerprint`
 
@@ -265,7 +265,7 @@ Raised for invalid input, unavailable dependencies, or incomplete processing. Th
 | BMP    | `.bmp`          | `"bmp"`         |
 | WebP   | `.webp`         | `"webp"`        |
 
-A file needs a supported extension and a valid format signature. An image's `source_format` is its detected format, so a PNG named `scan.jpg` is `"png"`. Each image frame counts toward `page_count`. Encrypted Office packages are unsupported.
+A file needs a supported extension and a valid format signature. An image's `source_format` is its detected format, so a PNG named `scan.jpg` is `"png"`. Each image frame counts toward `page_count`. DOCX and PPTX need the office extra, `pip install "docfgp[office]"`. Encrypted Office packages are unsupported.
 
 ## Supported languages
 

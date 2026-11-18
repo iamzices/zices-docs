@@ -11,7 +11,7 @@ To deduplicate documents with DocFGP, fingerprint every document and compare the
 First, install DocFGP:
 
 ```sh
-pip install docfgp
+pip install "docfgp[office]"
 ```
 
 A fingerprint summarizes what a document says and what its pages look like. Create one with `Fingerprinter().fingerprint()`. It works the same way for PDF, Word, PowerPoint, and image files, including scans:

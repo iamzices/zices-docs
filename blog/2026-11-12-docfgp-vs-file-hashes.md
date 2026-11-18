@@ -26,7 +26,7 @@ DocFGP fingerprints what a document says and what its pages look like, so it sti
 To try it, install DocFGP:
 
 ```sh
-pip install docfgp
+pip install "docfgp[office]"
 ```
 
 A DocFGP fingerprint includes the file hash as `raw_sha256`, so you can check both at once. `canonical_sha256` is a hash of the document's words instead of its bytes:

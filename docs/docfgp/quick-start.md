@@ -9,13 +9,13 @@ Requires Python 3.11+ on Linux (x86_64, aarch64), macOS, or Windows (x64).
 ## Install
 
 ```sh
-pip install docfgp
+pip install "docfgp[office]"
 ```
 
-The standard install supports English and 55 other languages written in the Latin alphabet. For other languages, install the language pack, as in [Supported languages](./api-reference.md#supported-languages):
+The `office` extra adds DOCX and PPTX support. The standard install supports English and 55 other languages written in the Latin alphabet. For other languages, add the language pack, as in [Supported languages](./api-reference.md#supported-languages):
 
 ```sh
-pip install "docfgp[languages]"
+pip install "docfgp[office,languages]"
 ```
 
 ## Fingerprint a PDF
@@ -31,6 +31,8 @@ print(record["exact_hashes"]["raw_sha256"])
 ```
 
 ## Fingerprint a DOCX or PPTX file
+
+DOCX and PPTX files need the `office` extra. Without it, they raise `FingerprintError`.
 
 ```python
 from docfgp import Fingerprinter

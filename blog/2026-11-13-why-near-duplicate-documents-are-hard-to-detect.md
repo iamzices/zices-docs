@@ -212,7 +212,7 @@ Together, they cover each other's gaps. That's why reliable near-duplicate detec
 [DocFGP](/docfgp/overview) is an open-source Python library that handles all eight challenges. It extracts and normalizes text from PDF, DOCX, PPTX, and image files, reads scans with OCR, and creates a fingerprint with text hashes, word and character similarity sketches, page hashes, and lookup keys. It runs locally on your CPU.
 
 ```sh
-pip install docfgp
+pip install "docfgp[office]"
 ```
 
 This example compares a document with the unreadable scan from challenge 6:

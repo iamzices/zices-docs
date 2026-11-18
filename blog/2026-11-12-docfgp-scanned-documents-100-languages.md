@@ -8,10 +8,10 @@ DocFGP can now read scanned documents in more than 100 languages, so you can fin
 
 <!-- truncate -->
 
-DocFGP reads the text of a scan with OCR. The standard install supports English and 55 other languages written in the Latin alphabet, such as French, German, and Spanish. For other languages, install the language pack:
+DocFGP reads the text of a scan with OCR. The standard install supports English and 55 other languages written in the Latin alphabet, such as French, German, and Spanish. For other languages, install the language pack, along with the office extra for Word and PowerPoint files:
 
 ```sh
-pip install "docfgp[languages]"
+pip install "docfgp[office,languages]"
 ```
 
 Then set `ocr_language` to the language of your scans. This example compares a Simplified Chinese contract with a scan of it:

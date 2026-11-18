@@ -67,7 +67,7 @@ We saved one short services agreement in every format, and added an edited versi
 Install DocFGP:
 
 ```sh
-pip install docfgp
+pip install "docfgp[office]"
 ```
 
 Then fingerprint each file. The same code works for every format:

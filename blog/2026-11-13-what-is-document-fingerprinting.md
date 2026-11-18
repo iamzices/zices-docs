@@ -162,7 +162,7 @@ Use file hashes to find identical files, fingerprints to find duplicates, and em
 ### 1. Install DocFGP
 
 ```sh
-pip install docfgp
+pip install "docfgp[office]"
 ```
 
 ### 2. Fingerprint a document

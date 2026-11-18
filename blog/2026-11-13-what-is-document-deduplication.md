@@ -208,7 +208,7 @@ Embeddings find documents with similar meaning, such as two articles on the same
 [DocFGP](/docfgp/overview) is an open-source Python library for document deduplication. It fingerprints PDF, DOCX, PPTX, and image files, including scans, and runs locally on your CPU. Each fingerprint includes a file hash, a text hash, similarity sketches, lookup keys, and hashes of what each page looks like.
 
 ```sh
-pip install docfgp
+pip install "docfgp[office]"
 ```
 
 This is the code behind the example table:

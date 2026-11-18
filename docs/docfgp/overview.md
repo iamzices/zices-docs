@@ -4,7 +4,7 @@ description: DocFGP by Zices is a Python library that creates text and visual fi
 sidebar_position: 1
 ---
 
-DocFGP (Document Fingerprint) by [Zices](https://github.com/iamzices) is a Python library that creates text and visual fingerprints for finding duplicates, near-duplicates, and shared passages across document formats. It supports PDF, DOCX, PPTX, PNG, JPEG, TIFF, BMP, and WebP files, including scanned documents, and runs locally on the CPU.
+DocFGP (Document Fingerprint) by [Zices](https://github.com/iamzices) is a Python library that creates text and visual fingerprints for finding duplicates, near-duplicates, and shared passages across document formats. It supports PDF, DOCX, PPTX, PNG, JPEG, TIFF, BMP, and WebP files, including scanned documents, and runs locally on the CPU. DOCX and PPTX support comes with the `docfgp[office]` extra.
 
 ```python
 from docfgp import Fingerprinter
@@ -27,15 +27,15 @@ DocFGP fingerprints what a document says and what its pages look like, so it can
 
 DocFGP extracts the text of each page, using OCR for scanned pages, and renders the page as an image. It then normalizes the text and hashes it, along with the page images, into a fingerprint that can answer these questions:
 
-| Question                                             | Field                               | Evidence                                               |
-| ---------------------------------------------------- | ----------------------------------- | ------------------------------------------------------ |
-| Are the files byte-identical?                        | `exact_hashes["raw_sha256"]`        | Raw SHA-256                                            |
-| Did extraction produce the same text across formats? | `exact_hashes["canonical_sha256"]`  | Nonempty canonical SHA-256                             |
-| Are the documents broadly similar?                   | `minhash`, `char_minhash`           | Word and character MinHash, reached through LSH keys   |
-| Is one document substantially contained in another?  | `passage_anchors`, `shingle_counts` | Passage anchors, then hashed-shingle occurrence counts |
-| Do scanned pages look alike?                         | `page_hashes`                       | Per-page perceptual hashes and visual keys             |
+| Question                                             | Field                                      | Evidence                                               |
+| ---------------------------------------------------- | ------------------------------------------ | ------------------------------------------------------ |
+| Are the files byte-identical?                        | `exact_hashes["raw_sha256"]`               | Raw SHA-256                                            |
+| Did extraction produce the same text across formats? | `exact_hashes["canonical_sha256"]`         | Nonempty canonical SHA-256                             |
+| Are the documents broadly similar?                   | `minhash`, `char_minhash`                  | Word and character MinHash, reached through LSH keys   |
+| Is one document substantially contained in another?  | `lookup_keys["passage"]`, `shingle_counts` | Passage anchors, then hashed-shingle occurrence counts |
+| Do scanned pages look alike?                         | `page_hashes`                              | Per-page perceptual hashes and visual keys             |
 
-The same file and tool versions always produce the same fingerprint. Shared templates, repeated footers, and OCR errors can affect scores. For details and measured results, see the [methodology](https://github.com/iamzices/docfgp-document-fingerprint/blob/main/docs/methodology.md).
+The same file and tool versions always produce the same fingerprint. Shared templates, repeated footers, and OCR errors can affect scores. For details and measured results, see the [methodology](https://github.com/docfgp/docfgp/blob/main/docs/methodology.md).
 
 This is how five files compare with an 800-word PDF. Resemblance estimates how much text two files have in common, and coverage is how much of the compared file appears in the original:
 

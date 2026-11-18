@@ -117,7 +117,7 @@ Save the fingerprints. When new documents arrive, fingerprint them and check the
 This script deduplicates a `knowledge-base` folder and writes a report of the documents to keep and their duplicates.
 
 ```sh
-pip install docfgp
+pip install "docfgp[office]"
 ```
 
 ```python

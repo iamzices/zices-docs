@@ -145,7 +145,7 @@ For documents with legal or financial weight, group near-duplicates and let a pe
 First, install it:
 
 ```sh
-pip install docfgp
+pip install "docfgp[office]"
 ```
 
 Then fingerprint two documents and run all four checks:

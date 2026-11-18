@@ -223,7 +223,7 @@ Shingles need text. When a scan has no readable text, such as handwriting or a p
 [DocFGP](/docfgp/overview) computes everything in this guide for PDF, DOCX, PPTX, and image files: five-word and 13-character shingles, two 512-value MinHash sketches, 32 LSH keys for each sketch, and a perceptual hash for each page.
 
 ```sh
-pip install docfgp
+pip install "docfgp[office]"
 ```
 
 This example indexes three documents by their LSH keys, then finds the candidates for a new one and verifies them:
