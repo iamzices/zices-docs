@@ -16,7 +16,7 @@ export default {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {routeBasePath: '/', sidebarPath: './sidebars.js', sidebarCollapsed: false, breadcrumbs: false},
-        blog: {blogTitle: 'Blog', blogDescription: 'Blog posts by Zices @iamzices.', blogSidebarCount: 0, showReadingTime: false, archiveBasePath: null},
+        blog: {blogTitle: 'Blog', blogDescription: 'Blog posts by Zices @iamzices.', blogSidebarCount: 0, postsPerPage: 'ALL', showReadingTime: false, archiveBasePath: null},
         theme: {customCss: './src/css/custom.css'},
       }),
     ],

@@ -1,7 +1,6 @@
 import Link from '@docusaurus/Link';
 import {HtmlClassNameProvider, PageMetadata, ThemeClassNames} from '@docusaurus/theme-common';
 import Layout from '@theme/Layout';
-import BlogListPaginator from '@theme/BlogListPaginator';
 import BlogListPageStructuredData from '@theme/BlogListPage/StructuredData';
 
 // Format in UTC so server and browser dates match.
@@ -12,8 +11,8 @@ const dayFormat = new Intl.DateTimeFormat('en-US', {month: 'short', day: 'numeri
  * Render the blog index as a timeline: posts grouped by month, each with its date and title.
  *
  * @param props - Props passed by the blog plugin.
- * @param props.metadata - The list page's metadata: title, description, and pagination.
- * @param props.items - The posts on this page, newest first.
+ * @param props.metadata - The list page's metadata: title and description.
+ * @param props.items - All posts, newest first.
  * @returns The blog index page.
  */
 export default function BlogListPage(props) {
@@ -43,7 +42,6 @@ export default function BlogListPage(props) {
                 </ol>
               </section>
             ))}
-            <BlogListPaginator metadata={metadata} />
           </article>
         </main>
       </Layout>
