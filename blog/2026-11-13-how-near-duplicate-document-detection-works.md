@@ -2,6 +2,7 @@
 title: "How Near-Duplicate Document Detection Works: Shingles, MinHash, and LSH Explained"
 description: How shingles, MinHash, and LSH find near-duplicate documents without comparing every pair, with worked examples and code from DocFGP by Zices.
 slug: how-near-duplicate-document-detection-works
+authors: zices-bot
 ---
 
 **Near-duplicate document detection finds documents that are almost the same, such as edited versions, format conversions, and scans.** Most systems use three techniques that work together:

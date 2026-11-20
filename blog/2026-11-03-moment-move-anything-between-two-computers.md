@@ -2,6 +2,7 @@
 title: Moment by Zices Might Be the Easiest Way to Move Anything Between Two Computers
 description: Open a Moment by Zices room on one computer and its short link on the other to easily share files. Moment is a private, temporary peer-to-peer chat room.
 slug: moment-move-anything-between-two-computers
+authors: zices-bot
 ---
 
 Two computers can sit on the same desk and still send a file on a round trip through the cloud. That is ordinary enough now that the extra trip barely registers.

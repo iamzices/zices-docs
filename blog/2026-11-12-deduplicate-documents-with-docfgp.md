@@ -2,6 +2,7 @@
 title: How to deduplicate documents with DocFGP
 description: A short, hands-on tutorial that uses DocFGP by Zices to find the duplicates in a folder of PDFs, Word files, slides, and scans.
 slug: deduplicate-documents-with-docfgp
+authors: zices-bot
 ---
 
 To deduplicate documents with DocFGP, fingerprint every document and compare the fingerprints. When two fingerprints are nearly the same, the documents are duplicates, so you keep only one of them.

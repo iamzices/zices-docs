@@ -2,6 +2,7 @@
 title: "Exact vs. Near-Duplicate Documents: What's the Difference?"
 description: The four kinds of duplicate documents, how to detect each one, and which to remove for your use case, with examples from DocFGP by Zices.
 slug: exact-vs-near-duplicate-documents
+authors: zices-bot
 ---
 
 **An exact duplicate is an identical copy of a file. A near-duplicate is a document with the same or almost the same content, but in a different file.** You can find exact duplicates with a simple hash. Near-duplicates need a similarity score and a threshold.

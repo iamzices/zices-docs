@@ -2,6 +2,7 @@
 title: "Document Deduplication: Why It Matters and How to Do It"
 description: What duplicate documents cost, and how to run a deduplication project step by step, from policy to safe removal, with DocFGP by Zices.
 slug: document-deduplication-why-it-matters
+authors: zices-bot
 ---
 
 **Document deduplication finds documents with the same or nearly the same content and keeps one copy of each.** It cuts storage and processing costs, improves search and AI results, speeds up legal review, and makes privacy requests easier to fulfill. Done carelessly, it can also delete documents that only look like duplicates.

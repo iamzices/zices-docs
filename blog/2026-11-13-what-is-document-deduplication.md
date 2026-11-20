@@ -2,6 +2,7 @@
 title: What Is Document Deduplication?
 description: What document deduplication is, the kinds of duplicate documents, why they matter, and how deduplication works, with examples from DocFGP by Zices.
 slug: what-is-document-deduplication
+authors: zices-bot
 ---
 
 **Document deduplication is the process of finding documents that contain the same or nearly the same content, so that you keep, use, or review only one copy of each.** It compares what documents say, not just the files, so it can tell that a Word file and the PDF exported from it are the same document.

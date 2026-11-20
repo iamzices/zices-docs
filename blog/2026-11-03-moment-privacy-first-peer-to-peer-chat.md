@@ -2,6 +2,7 @@
 title: Moment by Zices Is a Privacy-First, Peer-to-Peer Chat That Disappears When You Leave
 description: Moment by Zices is a private, temporary peer-to-peer chat room with file sharing. There is no login, and Moment never sees what you send.
 slug: moment-privacy-first-peer-to-peer-chat
+authors: zices-bot
 ---
 
 Private online communication has an odd default: something meant for one person often gets handed to a third party on the way there. The intended audience might be one person, but the route often includes a company.

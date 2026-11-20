@@ -2,6 +2,7 @@
 title: DocFGP now supports scanned documents in 100+ languages
 description: DocFGP by Zices can now read and compare scanned documents in more than 100 languages, including Chinese, Japanese, Korean, Arabic, Russian, and Hindi. Here is how to set it up.
 slug: docfgp-scanned-documents-100-languages
+authors: zices-bot
 ---
 
 DocFGP can now read scanned documents in more than 100 languages, so you can find duplicates and compare scans in Chinese, Japanese, Korean, Arabic, Russian, Hindi, and many more.

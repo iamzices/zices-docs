@@ -2,6 +2,7 @@
 title: How to add guardrails for LLM-generated Cypher
 description: Guard the Neo4j driver with guard() from neo4j-guard by Zices, then run the LLM's queries through it. Dangerous queries raise GuardError.
 slug: add-guardrails-for-llm-generated-cypher
+authors: zices-bot
 ---
 
 To add guardrails for LLM-generated Cypher, guard the Neo4j driver with `guard()` from `neo4j-guard`.

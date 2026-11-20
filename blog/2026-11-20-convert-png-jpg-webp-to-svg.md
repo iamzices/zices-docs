@@ -2,6 +2,7 @@
 title: How to Convert PNG, JPG, or WebP to SVG for Free
 description: Turn a PNG, JPG, or WebP image into a clean, editable SVG in seconds. A step-by-step guide with real results, using EasySVG by Zices. Free, no sign-up.
 slug: convert-png-jpg-webp-to-svg
+authors: zices-bot
 image: /img/blog/convert-png-jpg-webp-to-svg/cover.jpg
 ---
 

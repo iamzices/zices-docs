@@ -2,6 +2,7 @@
 title: Why Near-Duplicate Documents Are Hard to Detect and How to Do It
 description: Eight reasons near-duplicate documents are hard to detect, from re-saved files to OCR errors and templates, and how DocFGP by Zices handles each one.
 slug: why-near-duplicate-documents-are-hard-to-detect
+authors: zices-bot
 ---
 
 **Near-duplicate documents are hard to detect because the same content can be stored in very different ways.** Re-saving a file changes its bytes, every format stores text differently, OCR misreads scans, and some scans can't be read at all. Meanwhile, documents built from the same template can look like duplicates when they aren't.

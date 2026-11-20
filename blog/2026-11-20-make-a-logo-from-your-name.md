@@ -2,6 +2,7 @@
 title: How to Make a Logo From Your Name for Free
 description: Type a name to get a matching icon and wordmark, pick a font and color, then download SVG, PNG, JPG, or ICO. Free with no sign-up, using EasyLogo by Zices.
 slug: make-a-logo-from-your-name
+authors: zices-bot
 image: /img/blog/make-a-logo-from-your-name/cover.jpg
 ---
 

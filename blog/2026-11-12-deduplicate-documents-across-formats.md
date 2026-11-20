@@ -2,6 +2,7 @@
 title: "How to Deduplicate Documents Across Formats: PDF, Word, PowerPoint, and Scans"
 description: Find the same document saved as a PDF, Word file, slide deck, or scan, and keep one copy. A step-by-step guide with tests, using DocFGP by Zices.
 slug: deduplicate-documents-across-formats
+authors: zices-bot
 ---
 
 **To deduplicate documents across formats, turn every file into text the same way, then compare the text instead of the files.** Word files, PDFs, and slides with the same content usually produce identical text, so a hash of that text matches them exactly. Scans are read with OCR, which makes mistakes, so they need a similarity score and sometimes a person to check. Scans with no readable text can only be compared by how their pages look.

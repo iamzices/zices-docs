@@ -2,6 +2,7 @@
 title: How to Turn a Blurry, Low-Resolution Logo Into a Sharp SVG
 description: Turn a small, blurry, or pixelated logo into a sharp SVG that scales to any size. Step by step with real results, using EasySVG by Zices. Free, no sign-up.
 slug: vectorize-low-resolution-logo
+authors: zices-bot
 image: /img/blog/vectorize-low-resolution-logo/cover.jpg
 ---
 

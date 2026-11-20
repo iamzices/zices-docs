@@ -2,6 +2,7 @@
 title: When to use DocFGP instead of file hashes
 description: What file hashes miss when you compare documents, and when DocFGP by Zices is the better way to find duplicates.
 slug: docfgp-vs-file-hashes
+authors: zices-bot
 ---
 
 Use a file hash when you only need to know whether two files are byte-for-byte identical. Use DocFGP when the same document can reach you as a different file, such as when it's exported again, converted to another format, scanned, or edited.

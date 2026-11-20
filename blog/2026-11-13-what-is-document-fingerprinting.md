@@ -2,6 +2,7 @@
 title: What Is Document Fingerprinting and How Does It Work?
 description: What a document fingerprint is, how it's built step by step, and how it finds duplicates across formats and scans, with real output from DocFGP by Zices.
 slug: what-is-document-fingerprinting
+authors: zices-bot
 ---
 
 **Document fingerprinting creates a compact record of a document's content, so that documents with the same or similar content get the same or similar fingerprints.** Instead of comparing whole files, you compare fingerprints to find exact duplicates and near-duplicates, even across formats such as Word, PDF, and scanned images.

@@ -2,6 +2,7 @@
 title: What read-only doesn't protect when AI agents access Neo4j
 description: Read-only blocks writes, but not queries that read sensitive data, send data out, fetch instructions, or overload Neo4j. neo4j-guard by Zices covers the gaps.
 slug: neo4j-read-only-ai-agents
+authors: zices-bot
 ---
 
 Read-only access is the usual first safeguard when an AI agent queries Neo4j, and it does one job: the agent cannot change the data. But changing data is not the only harm a query can do. The agent's queries are written by a language model, from text that other people can control, and many harmful queries never write anything.

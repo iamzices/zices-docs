@@ -2,6 +2,7 @@
 title: How to Find and Remove Near-Duplicate Documents Before Building a RAG Pipeline
 description: Why duplicate documents hurt RAG retrieval, and how to remove them before you chunk and embed, step by step, with DocFGP by Zices.
 slug: find-and-remove-near-duplicate-documents-before-rag
+authors: zices-bot
 ---
 
 **To remove near-duplicate documents before building a RAG pipeline, fingerprint every document, group the ones that are the same or nearly the same, keep the best copy from each group, and only chunk and embed the copies you keep.** Doing this at the document level, before chunking, catches copies that chunk-level checks and exact hashes miss, such as a Word file and its PDF or a scanned printout.
