@@ -5,6 +5,10 @@ description: Documentation for DocFGP, neo4j-guard, and Chartable, the Python an
 
 # Projects
 
+- [kgeval](https://kgeval.github.io/kgeval/)
+
+  kgeval is a Python evaluation framework for knowledge graphs. It scores a graph on 29 metrics, using rule-based checks, comparison with a ground truth, and LLM-as-a-judge.
+
 - [DocFGP](/docfgp/overview)
 
   DocFGP is a Python library that creates text and visual fingerprints for finding duplicates, near-duplicates, and shared passages across document formats. It supports exact, near-duplicate, and partial-match retrieval, with OCR and visual fingerprints for scanned documents.
