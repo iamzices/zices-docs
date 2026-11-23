@@ -21,4 +21,4 @@ The difference is where the data goes. A file is not parked on Moment's servers 
 
 That fits naturally into conversations already happening elsewhere. A Discord chat can stay on Discord until a private document or sensitive detail comes up. That part can move to a Moment room and disappear when it is over, without turning the rest of the conversation into a move to another app.
 
-Try Moment at [chat.zices.com](https://chat.zices.com).
+Try Moment at [chat.zices.com](https://chat.zices.com), or read its source code on [GitHub](https://github.com/iamzices/moment-chat).

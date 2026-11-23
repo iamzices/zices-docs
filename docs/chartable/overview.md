@@ -4,7 +4,7 @@ description: Chartable by Zices is an easy to use JavaScript library that draws 
 sidebar_position: 1
 ---
 
-Chartable by [Zices](https://github.com/iamzices) is an easy to use interactive chart and table JavaScript library built on Plotly.js and Tabulator. Every chart and table has buttons to copy and download its data.
+Chartable by [Zices](https://github.com/iamzices) is an easy to use interactive chart and table JavaScript library built on Plotly.js and Tabulator. Every chart and table has buttons to copy and download its data. The source code is on [GitHub](https://github.com/iamzices/chartable), and the package is on [npm](https://www.npmjs.com/package/@iamzices/chartable).
 
 ```js
 import { render } from "@iamzices/chartable";

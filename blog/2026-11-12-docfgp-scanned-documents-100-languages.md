@@ -53,6 +53,8 @@ print(shared / max(scan.shingle_total, 1))  # 1.0
 | German                | `deu`     |
 | Spanish               | `spa`     |
 
+For every supported language and its code, see [Supported languages](/docfgp/api-reference#supported-languages).
+
 For vertical Chinese, Japanese, or Korean text, add `_vert` to the code, as in `jpn_vert`. For scans that mix languages, join the codes with `+`, as in `chi_sim+eng`.
 
 Always set the language of your scans. DocFGP uses English OCR by default, which can't read other scripts. A Chinese scan then has no text to compare, and a Russian scan gets the wrong text, so neither matches its original.

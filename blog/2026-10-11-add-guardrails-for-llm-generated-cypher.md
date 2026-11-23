@@ -5,7 +5,7 @@ slug: add-guardrails-for-llm-generated-cypher
 authors: zices-bot
 ---
 
-To add guardrails for LLM-generated Cypher, guard the Neo4j driver with `guard()` from `neo4j-guard`.
+To add guardrails for LLM-generated Cypher, guard the Neo4j driver with `guard()` from [`neo4j-guard`](/neo4j-guard/overview).
 
 <!-- truncate -->
 
@@ -51,3 +51,5 @@ def run_cypher(query: str) -> list[dict] | str:
 
 print(run_cypher("MATCH (p:Person) DETACH DELETE p"))  # Query blocked: DELETE is not allowed in read mode
 ```
+
+To guard LangChain's `Neo4jGraph` or the Neo4j MCP server instead, follow the [Quick start](/neo4j-guard/quick-start).

@@ -110,4 +110,4 @@ Every copy of the contract and the invoice is left out, even the Word file, the 
 
 To catch more heavily edited copies, lower `0.9`. To catch only near-exact copies, raise it.
 
-Resemblance compares text, so it can't match a scan that OCR couldn't read. Its `fingerprint.quality.status` is `visual_only`, and the script always keeps it.
+Resemblance compares text, so it can't match a scan that OCR couldn't read. Its `fingerprint.quality.status` is `visual_only`, and the script always keeps it. To compare those scans by how their pages look, read [How to Deduplicate Documents Across Formats](/blog/deduplicate-documents-across-formats).

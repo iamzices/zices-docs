@@ -4,7 +4,7 @@ description: neo4j-guard by Zices is a Python library that blocks unsafe Cypher 
 sidebar_position: 1
 ---
 
-`neo4j-guard` by [Zices](https://github.com/iamzices) is a Python library that blocks unsafe Cypher queries before execution. It parses Cypher using ANTLR and Neo4j's Cypher 25 grammar, then traverses the resulting syntax tree to validate query operations against built-in safety rules. A query or result that is not allowed raises `GuardError`. By default, only read queries are allowed.
+`neo4j-guard` by [Zices](https://github.com/iamzices) is a Python library that blocks unsafe Cypher queries before execution. It parses Cypher using ANTLR and Neo4j's Cypher 25 grammar, then traverses the resulting syntax tree to validate query operations against built-in safety rules. A query or result that is not allowed raises `GuardError`. By default, only read queries are allowed. The source code is on [GitHub](https://github.com/iamzices/neo4j-guard), and the package is on [PyPI](https://pypi.org/project/neo4j-guard/).
 
 ```python
 from neo4j import GraphDatabase

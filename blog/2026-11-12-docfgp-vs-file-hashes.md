@@ -62,3 +62,5 @@ def coverage(a, b):
 - **Coverage** is the share of document `a`'s text that also appears in document `b`. Use it to find scans and excerpts of a longer document.
 
 If your files only ever arrive as exact copies, such as backups, a file hash is all you need.
+
+To get started, follow the [DocFGP Quick start](/docfgp/quick-start).

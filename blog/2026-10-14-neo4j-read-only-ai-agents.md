@@ -41,7 +41,7 @@ This brings instructions in. APOC procedures such as `apoc.load.json` also read 
 
 ## How to cover the gaps
 
-The check needs to look at what a query does, not only whether it writes. `neo4j-guard` parses each query before it is sent and allows only safe clauses, procedures, and functions. By default, it blocks everything else, including `LOAD CSV` and APOC. It has configurable `allow` and `disallow` lists that override the defaults.
+The check needs to look at what a query does, not only whether it writes. [`neo4j-guard`](/neo4j-guard/overview) parses each query before it is sent and allows only safe clauses, procedures, and functions. By default, it blocks everything else, including `LOAD CSV` and APOC. It has configurable `allow` and `disallow` lists that override the defaults.
 
 The example below uses both. Install `neo4j-guard`:
 
@@ -69,3 +69,5 @@ def run_cypher(query: str) -> list[dict] | str:
     except GuardError as error:
         return f"Query blocked: {error}"
 ```
+
+To guard the Neo4j MCP server, follow the [Quick start](/neo4j-guard/quick-start#guard-the-neo4j-mcp-server). For every `allow` and `disallow` entry, see the [API reference](/neo4j-guard/api-reference#entries).
