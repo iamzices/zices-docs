@@ -5,37 +5,15 @@ slug: evaluate-neo4j-knowledge-graph-with-kgeval
 authors: zices-bot
 ---
 
-**To evaluate a Neo4j knowledge graph with kgeval, install it with `pip install kgeval`, run `kgeval run` against your database, and read the report.** kgeval scores the graph on up to 29 metrics, such as duplicate entities, schema conformance, and facts that the source text doesn't support, and lists every defect with the IDs of the nodes and relationships involved.
+This tutorial takes you from installing [kgeval](https://github.com/kgeval/kgeval) to an evaluation of your Neo4j knowledge graph that runs in CI. kgeval scores a graph on up to 29 metrics, such as duplicate entities, schema conformance, and facts that the source text doesn't support, and lists every defect with the IDs of the nodes and relationships involved.
 
-This tutorial takes you from installation to an evaluation that runs in CI. It works with any knowledge graph in Neo4j, including graphs built by Neo4j LLM Graph Builder, neo4j-graphrag, LangChain, and Graphiti.
-
-In this tutorial, you'll learn how to:
-
-- Install kgeval and connect it to Neo4j or Neo4j Aura
-- Run your first evaluation and read the report
-- Add a schema, a ground truth, test questions, and an LLM judge
-- Evaluate a GraphRAG retriever
-- Evaluate a knowledge graph in Python and in a test suite
-- Run kgeval in GitHub Actions and compare two builds of a graph
+It works with any knowledge graph in Neo4j, including graphs built by Neo4j LLM Graph Builder, neo4j-graphrag, LangChain, and Graphiti.
 
 <!-- truncate -->
 
-## What is kgeval?
+## How kgeval works
 
-[kgeval](https://github.com/kgeval/kgeval) is an open-source evaluation framework for knowledge graphs, written in Python and released under the Apache 2.0 license. It reads a graph from Neo4j through a read-only session, evaluates a snapshot of it in memory, and writes a report of scores and findings. It has a command-line interface and a Python API.
-
-kgeval has 29 metrics in five categories. The intrinsic metrics need only the graph, and each other category needs one more input:
-
-| Input          | Metrics                                                                 |
-| -------------- | ----------------------------------------------------------------------- |
-| Graph only     | Uniqueness, connectivity, naming, provenance, consistency, and coverage |
-| Graph schema   | Conformance and completeness                                            |
-| Ground truth   | Precision, recall, and F1 for facts and entities                        |
-| Test questions | Whether the graph can answer each question                              |
-| Retrievals     | Retriever precision and recall                                          |
-| LLM judge      | Accuracy, resolution, disambiguation, and extraction completeness       |
-
-For an overview of the project, read [Introducing kgeval](/blog/introducing-kgeval).
+kgeval is an open-source evaluation framework for knowledge graphs, written in Python and released under the Apache 2.0 license. It reads a graph from Neo4j through a read-only session, evaluates a snapshot of it in memory, and writes a report of scores and findings. The first run needs only the graph. Steps 6 to 9 each add an input, such as a schema or an LLM judge, that enables more metrics.
 
 ## Prerequisites
 
@@ -44,8 +22,6 @@ For an overview of the project, read [Introducing kgeval](/blog/introducing-kgev
 - For the LLM judge, an API key for a model provider, or a local model server
 
 ## Step 1: Install kgeval
-
-Install kgeval from [PyPI](https://pypi.org/project/kgeval/):
 
 ```sh
 pip install kgeval
@@ -75,7 +51,7 @@ export NEO4J_USERNAME=<username>
 export NEO4J_PASSWORD=<password>
 ```
 
-For Neo4j Aura, use the `neo4j+s://` URI from the instance's connection details. In a terminal, kgeval prompts for any setting that is missing, so you can also skip this step. Each variable also has a command-line option, such as `--uri` and `--database`, described in [Configuration](https://kgeval.github.io/kgeval/guide/configuration/#connection).
+For Neo4j Aura, use the `neo4j+s://` URI from the instance's connection details. In a terminal, kgeval prompts for any setting that is missing, so you can also skip this step. Each variable also has a command-line option, such as `--uri` and `--database`.
 
 ## Step 3: Run your first evaluation
 
@@ -132,7 +108,7 @@ Each finding describes one defect and lists the elements involved:
   - nodes: `4:9e64…:4`, `4:9e64…:9`
 ```
 
-The Markdown report lists up to 10 findings per metric, and `--max-findings` changes that limit. The [Quickstart](https://kgeval.github.io/kgeval/quickstart/) explains every part of the report.
+The Markdown report lists up to 10 findings per metric, and `--max-findings` changes that limit.
 
 ## Step 5: Inspect the findings in Neo4j Browser
 
@@ -141,8 +117,6 @@ Paste the element IDs from a finding into Neo4j Browser to see the nodes at faul
 ```cypher
 MATCH (n) WHERE elementId(n) IN ['4:9e64…:4', '4:9e64…:9'] RETURN n
 ```
-
-The [common knowledge graph quality issues](/blog/common-knowledge-graph-quality-issues) guide explains how to fix each kind of defect.
 
 ## Step 6: Add a graph schema
 
@@ -158,11 +132,11 @@ The draft copies the graph's defects, such as a `PERSON` node type next to `Pers
 kgeval run --schema schema.yaml
 ```
 
-The four schema metrics check that every entity and fact conforms to the schema, and that the graph uses every type and property the schema declares. The [graph schema](https://kgeval.github.io/kgeval/guide/inputs/#graph-schema) section of the inputs guide describes the format.
+The four schema metrics check that every entity and fact conforms to the schema, and that the graph uses every type and property the schema declares.
 
 ## Step 7: Add a ground truth and test questions
 
-A ground truth lists the facts that the graph should contain. To keep it small, cover a few documents, and list them, so that kgeval compares only the facts extracted from those documents:
+A ground truth lists the facts that the graph should contain. It doesn't need to cover the whole corpus: list a few documents under `documents`, and kgeval compares only the facts extracted from them. Use `aliases` for other names of an entity:
 
 ```yaml title="ground_truth.yaml"
 facts:
@@ -188,7 +162,7 @@ Test questions list the questions your application must answer, with the facts e
 kgeval run --ground ground_truth.yaml --questions questions.yaml
 ```
 
-kgeval adds precision, recall, and F1 for facts and entities, and `competency`, the share of questions the graph can answer. Names match regardless of case, accents, punctuation, and spacing, so you can write them the way a person would. The [inputs guide](https://kgeval.github.io/kgeval/guide/inputs/) describes both formats.
+kgeval adds precision, recall, and F1 for facts and entities, and `competency`, the share of questions the graph can answer. Names match regardless of case, accents, punctuation, and spacing, so you can write them the way a person would.
 
 ## Step 8: Evaluate with an LLM judge
 
@@ -211,7 +185,7 @@ Each judged finding includes the judge's reason:
 - the chunks do not support the node types of "Fitzwilliam College" (Person): The chunk describes Fitzwilliam College as an educational institution where Lee studied, not as a person.
 ```
 
-The judged metrics that check entities and facts judge a reproducible sample of up to 100 units, set with `--sample-size`, so the cost stays bounded on large graphs. The cache stores every verdict, so a rerun gives the same scores without calling the model again. The [LLM judges guide](https://kgeval.github.io/kgeval/guide/judges/) lists every provider and option.
+The judged metrics that check entities and facts evaluate a reproducible sample of up to 100 units each, set with `--sample-size`, so the cost stays bounded on large graphs. The cache stores every verdict, so a rerun gives the same scores without calling the model again.
 
 ## Step 9: Evaluate your GraphRAG retriever
 
@@ -227,7 +201,9 @@ To evaluate a retriever, record the element IDs it returns for each test questio
 kgeval run --questions questions.yaml --retrievals retrievals.json
 ```
 
-`retrieval_recall` measures whether the retriever returned the facts each answer needs, and `retrieval_precision` whether what it returned was needed. Because `retrieval_recall` counts only the facts the graph has, comparing it with `competency` shows whether a wrong answer comes from the graph or from the retriever. With `--top-k`, only the top-ranked results count. The [retrievals](https://kgeval.github.io/kgeval/guide/inputs/#retrievals) section of the inputs guide describes the format.
+`retrieval_recall` measures whether the retriever returned the facts each answer needs, and `retrieval_precision` whether what it returned was needed. With `--top-k`, only the top-ranked results count.
+
+Because `retrieval_recall` counts only the facts the graph has, comparing it with `competency` shows where a wrong answer comes from. If `competency` fails, the graph lacks a fact the answer needs. If `competency` passes and `retrieval_recall` fails, the retriever missed it.
 
 ## Step 10: Run kgeval in CI
 
@@ -271,7 +247,7 @@ kgeval run --metadata model=<head-model> --format json -o head.json
 kgeval compare base.json head.json --max-drop 0.01
 ```
 
-The comparison shows how each score moved, which findings are new, and which were resolved, and opens with a verdict, REGRESSED or NO REGRESSION. `kgeval compare` exits with status 1 when a metric regressed. `--max-drop` allows for the small changes that rebuilding a graph with an LLM causes even when nothing else changed. The [comparing builds guide](https://kgeval.github.io/kgeval/guide/comparing/) explains how to read the result.
+The comparison opens with a verdict, REGRESSED or NO REGRESSION, and then shows how each score moved, which findings are new, and which were resolved. `kgeval compare` exits with status 1 when a metric regressed. `--max-drop` allows for the small changes that rebuilding a graph with an LLM causes even when nothing else changed.
 
 ## Evaluate a knowledge graph in Python
 
@@ -311,7 +287,7 @@ def test_graph_has_no_duplicate_entities():
     assert report.passed, report.to_markdown()
 ```
 
-In a notebook, a report renders itself as Markdown. The [Python API reference](https://kgeval.github.io/kgeval/reference/api/) documents every class and function.
+In a notebook, a report renders itself as Markdown.
 
 ## Evaluate graphs from LLM Graph Builder, neo4j-graphrag, LangChain, and Graphiti
 
@@ -336,13 +312,11 @@ text_keys: [body]
 kgeval run --layout layout.yaml
 ```
 
-The [graph layout](https://kgeval.github.io/kgeval/guide/configuration/#graph-layout) section of the configuration guide lists every field.
-
 ## Troubleshooting
 
 ### The counts in the summary look wrong
 
-kgeval detected a different layout than your graph uses. Check the layout line of the summary, and pass a [layout file](https://kgeval.github.io/kgeval/guide/configuration/#custom-layout) with the correct labels and property keys.
+kgeval detected a different layout than your graph uses. Check the layout line of the summary, and pass a layout file with the correct labels and property keys.
 
 ### A metric is skipped
 
@@ -354,7 +328,7 @@ A metric named by `--threshold` or `--metric` must be enabled by the inputs. For
 
 ### kgeval exits with status 2
 
-Status 2 means an error, such as an invalid input file or a failed connection. Run with `--verbose` to log progress to standard error. The [CLI reference](https://kgeval.github.io/kgeval/reference/cli/#kgeval-run) lists every exit status.
+Status 2 means an error, such as an invalid input file or a failed connection. Run with `--verbose` to log progress to standard error.
 
 ### The retrievals are rejected
 
@@ -362,7 +336,7 @@ Element IDs belong to one database, so the retrievals must come from the databas
 
 ### The judge gives no usable verdicts
 
-kgeval retries rate-limited requests for about a minute, and asks once more when a verdict doesn't parse. Small local models judge most reliably with structured outputs and thinking turned off, as the [local models](https://kgeval.github.io/kgeval/guide/judges/#local-models) section of the LLM judges guide shows for vLLM.
+kgeval retries rate-limited requests for about a minute, and asks once more when a verdict doesn't parse. Small local models judge most reliably with structured outputs and thinking turned off.
 
 ## kgeval command cheat sheet
 
@@ -381,44 +355,6 @@ kgeval retries rate-limited requests for about a minute, and asks once more when
 | Write a JSON report         | `kgeval run --format json -o report.json`                            |
 | Compare two reports         | `kgeval compare base.json head.json`                                 |
 
-The [CLI reference](https://kgeval.github.io/kgeval/reference/cli/) documents every option.
-
-## Key takeaways
-
-- Install kgeval with `pip install kgeval` and evaluate a Neo4j knowledge graph with `kgeval run`.
-- The first run needs only the graph. A schema, a ground truth, test questions, retrievals, and an LLM judge each enable more metrics.
-- Every finding lists the element IDs of the nodes and relationships involved, so you can inspect them in Neo4j Browser.
-- kgeval reads graphs from LLM Graph Builder, neo4j-graphrag, LangChain, and Graphiti without configuration.
-- Thresholds and `kgeval compare` turn the evaluation into a check that runs in CI.
-
-## Frequently asked questions
-
-### Is kgeval free?
-
-Yes. kgeval is open source under the Apache 2.0 license. The LLM judge is optional, and it can use a local model.
-
-### Does kgeval change my graph?
-
-No. kgeval reads the graph through a read-only session and evaluates a snapshot of it in memory.
-
-### Does kgeval work with Neo4j Aura?
-
-Yes. Use the `neo4j+s://` URI from the instance's connection details as `NEO4J_URI`.
-
-### Can kgeval evaluate a knowledge graph without a ground truth?
-
-Yes. The intrinsic metrics need only the graph, and the judged metrics compare the graph with the text it was extracted from. A schema, a ground truth, and test questions add more metrics when you have them.
-
-### Which models can kgeval use as an LLM judge?
-
-Any model available through an OpenAI-compatible API, from OpenAI, Azure OpenAI, Google Gemini, Mistral, xAI, DeepSeek, Groq, Together AI, Fireworks AI, or OpenRouter, or from a local server such as Ollama, LM Studio, or vLLM. In Python, any object with a `name` and an `ask` method can also judge.
-
-### How do I evaluate a GraphRAG application with kgeval?
-
-Evaluate the knowledge graph with test questions, and evaluate the retriever with the element IDs it returns for each question. Comparing `competency` with `retrieval_recall` shows whether a wrong answer comes from the graph or from the retriever.
-
 ## Next steps
 
-For the methods behind kgeval's metrics, read [How to Evaluate a Knowledge Graph](/blog/how-to-evaluate-a-knowledge-graph). To act on your findings, read [12 Common Knowledge Graph Quality Issues and How to Fix Them](/blog/common-knowledge-graph-quality-issues). To see every metric on one graph, run the [example notebook](https://github.com/kgeval/kgeval/blob/main/examples/singapore/evaluate.ipynb).
-
-The full guide is in the [kgeval documentation](https://kgeval.github.io/kgeval/), and the source code is on [GitHub](https://github.com/kgeval/kgeval).
+Next, read [12 Common Knowledge Graph Quality Issues and How to Fix Them](/blog/common-knowledge-graph-quality-issues) to learn how to fix the most common defects. The full guide is in the [kgeval documentation](https://kgeval.github.io/kgeval/), and the source code is on [GitHub](https://github.com/kgeval/kgeval).

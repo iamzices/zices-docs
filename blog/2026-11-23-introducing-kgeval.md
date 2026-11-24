@@ -5,11 +5,9 @@ slug: introducing-kgeval
 authors: zices-bot
 ---
 
-Knowledge graphs are increasingly built by language models rather than by hand. Tools such as [Neo4j LLM Graph Builder](https://neo4j.com/labs/genai-ecosystem/llm-graph-builder/), the [neo4j-graphrag knowledge graph builder](https://neo4j.com/docs/neo4j-graphrag-python/current/user_guide_kg_builder.html), [LangChain's graph transformer](https://python.langchain.com/docs/how_to/graph_constructing/), and [Graphiti](https://github.com/getzep/graphiti) extract entities and relationships from documents and store them in Neo4j, where they often serve as the retrieval layer of a GraphRAG application, an approach described in Microsoft's [From Local to Global](https://arxiv.org/abs/2404.16130).
+Knowledge graphs are increasingly built by language models rather than by hand. Tools such as Neo4j LLM Graph Builder, neo4j-graphrag, LangChain, and Graphiti extract entities and relationships from documents and store them in Neo4j, where they often serve as the retrieval layer of a GraphRAG application.
 
-Extraction by a language model introduces errors, and a graph built this way needs to be evaluated like any other data. [kgeval](https://github.com/kgeval/kgeval) is an open-source Python framework for that evaluation. It scores a graph in Neo4j on 29 metrics, covering duplicate entities, conformance to a schema, agreement with a ground truth, and whether each fact is supported by the text it was extracted from. Every defect it finds comes with the nodes and relationships involved, so you can go straight to the part of the graph to fix.
-
-This article describes the problem kgeval addresses, how it reads and scores a graph, and how to run it on your own graph.
+Language models make mistakes when they extract, so a graph built this way needs to be evaluated like any other data. [kgeval](https://github.com/kgeval/kgeval) is an open-source Python framework for that evaluation. It scores a graph in Neo4j on 29 metrics, covering duplicate entities, conformance to a schema, agreement with a ground truth, and whether each fact is supported by the text it was extracted from. Every defect it finds comes with the nodes and relationships involved, so you can go straight to the part of the graph to fix.
 
 <!-- truncate -->
 
@@ -24,20 +22,13 @@ The errors that extraction introduces are rarely visible in a visualization of t
 - Two spellings of the same relationship type, such as `FOUNDED` and `Founded`
 - A relationship that the source text does not state
 
-These errors don't cause failures. They affect retrieval instead: a duplicate splits an entity's facts across two nodes, and a wrong type excludes an entity from queries that filter by label.
+None of these errors causes a failure. They degrade retrieval instead: a duplicate splits an entity's facts across two nodes, and a wrong type hides an entity from queries that filter by label.
 
-Evaluation tools for retrieval-augmented generation, such as [Ragas](https://docs.ragas.io/en/stable/), measure the answers an application produces. Evaluating the graph itself shows whether a problem comes from the graph or from the retriever that reads it, and which nodes and relationships are at fault. The quality of knowledge graphs and linked data is well studied, and a widely cited [survey of linked data quality](https://www.semantic-web-journal.net/content/quality-assessment-linked-data-survey) identifies 18 quality dimensions and 69 metrics. kgeval brings the measures that matter for graphs extracted by language models together in one tool that runs against a graph in Neo4j with a single command.
+Tools for evaluating retrieval-augmented generation, such as Ragas, measure the answers an application produces. Evaluating the graph itself shows whether a bad answer comes from the graph or from the retriever that reads it, and which nodes and relationships are at fault.
 
-## What kgeval is
+## Running kgeval
 
-kgeval is a Python package with a command-line interface and a Python API. With it, you can:
-
-- Score a graph on 29 built-in metrics
-- Trace every finding to the nodes and relationships involved
-- Evaluate a graph on its own, or against a schema, a ground truth, and test questions
-- Compare evaluations of two versions of a graph to see what improved or regressed
-
-It requires Python 3.11 or later and Neo4j 5.10 or later, or Neo4j Aura, and it is released under the Apache 2.0 license.
+kgeval requires Python 3.11 or later and Neo4j 5.10 or later, or Neo4j Aura, and it is released under the Apache 2.0 license. Install it and run it against your database:
 
 ```sh
 pip install kgeval
@@ -74,17 +65,11 @@ kgeval detects these roles from the labels that common builders use. For example
 - Layout: lexical labels Chunk, Document; community labels __Community__; base labels __Entity__; names from name, title, id
 ```
 
-For a graph with other labels or property names, a layout file overrides the detected values, as described in [Configuration](https://kgeval.github.io/kgeval/guide/configuration/).
+For a graph with other labels or property names, a layout file overrides the detected values.
 
 ## Scores and findings
 
-Each metric checks a population of units, such as entities or facts, and reports the share that pass:
-
-```text
-score = (evaluated - failed) / evaluated
-```
-
-A score of 100% means that no unit failed. When a metric has nothing to evaluate, such as a provenance metric on a graph without chunks, it is skipped, and the report gives the reason.
+Each metric checks a set of units, such as entities or facts, and reports the share that pass, so a score of 100% means that no unit failed. When a metric has nothing to evaluate, such as a provenance metric on a graph without chunks, it is skipped, and the report gives the reason.
 
 Each failed unit produces a finding. A finding describes the defect and lists the element IDs of the nodes and relationships involved:
 
@@ -105,18 +90,18 @@ Reports are available as Markdown or JSON, and in Python as a `Report` object wh
 
 ## Metrics
 
-kgeval has 29 metrics in five categories. The intrinsic metrics need only the graph and run by default. The other categories run when you provide the input they need:
+kgeval's 29 metrics fall into five categories. The intrinsic metrics need only the graph and run by default. The others run when you provide the input they need:
 
 | Input          | Evaluates                                                               |
 | -------------- | ----------------------------------------------------------------------- |
 | Graph only     | Uniqueness, connectivity, naming, provenance, consistency, and coverage |
 | Graph schema   | Conformance and completeness                                            |
-| Ground truth   | Graph precision, recall, and F1                                         |
-| Test questions | Answerability                                                           |
+| Ground truth   | Precision, recall, and F1 for facts and entities                        |
+| Test questions | Whether the graph can answer each question                              |
 | Retrievals     | Retriever precision and recall                                          |
 | LLM judge      | Accuracy, resolution, disambiguation, and extraction completeness       |
 
-The [metrics guide](https://kgeval.github.io/kgeval/guide/metrics/) defines each metric, its unit, and the condition for passing. The sections below summarize each category.
+The [metrics guide](https://kgeval.github.io/kgeval/guide/metrics/) defines each metric, its unit, and the condition for passing.
 
 ### Intrinsic metrics
 
@@ -124,7 +109,7 @@ The ten intrinsic metrics are deterministic checks on the graph itself. They fin
 
 ### Schema metrics
 
-A graph schema declares which node types, relationship types, and patterns the graph may contain. kgeval reads the `GraphSchema` format of neo4j-graphrag, so a schema written for its `SimpleKGPipeline` can be used unchanged. The schema metrics check that entities and facts conform to the schema, and that the graph uses the types and properties the schema declares. For a graph without a schema, `kgeval infer-schema` drafts one from the current graph, so you can start from a draft instead of writing a schema from scratch.
+A graph schema declares which node types, relationship types, and patterns the graph may contain. kgeval reads the `GraphSchema` format of neo4j-graphrag, so a schema written for its `SimpleKGPipeline` works unchanged. The schema metrics check that entities and facts conform to the schema, and that the graph uses the types and properties the schema declares. If you don't have a schema, `kgeval infer-schema` drafts one from the current graph.
 
 ### Reference metrics
 
@@ -137,7 +122,7 @@ facts:
   - [Kwa Geok Choo, MARRIED, Lee Kuan Yew]
 ```
 
-From it, kgeval computes precision, recall, and F1 for facts and for entities. Test questions list questions the graph should be able to answer, each with the facts its answer depends on, and the `competency` metric checks that the graph contains those facts. Names are matched regardless of case, accents, punctuation, and spacing, and relationship types regardless of separators, camel case, and plural form, so `BORN_IN` and `born in` match. The [inputs guide](https://kgeval.github.io/kgeval/guide/inputs/) describes each file format.
+From it, kgeval computes precision, recall, and F1 for facts and for entities. Test questions list questions the graph should be able to answer, each with the facts its answer depends on, and the `competency` metric checks that the graph contains those facts. Names are matched regardless of case, accents, punctuation, and spacing, and relationship types regardless of separators, camel case, and plural form, so `BORN_IN` and `born in` match.
 
 ### Judged metrics
 
@@ -150,18 +135,13 @@ export OPENAI_API_KEY=<api-key>
 kgeval run --judge openai:<model> --judge-cache verdicts.sqlite
 ```
 
-Judging scales to large graphs. Following the sampling approach of [Efficient Knowledge Graph Accuracy Evaluation](https://arxiv.org/abs/1907.09657), the judged metrics that check entities and facts evaluate a sample of up to 100 units each, so the cost stays bounded however large the graph grows, and a sampled score comes with a 95% confidence interval. The sample is selected by hashing each unit's content with a seed, so the same graph produces the same sample on every run. The cache stores each verdict in a SQLite file, so rerunning an evaluation gives the same scores without calling the model again. The [LLM judges guide](https://kgeval.github.io/kgeval/guide/judges/) lists the supported providers and options.
+The judged metrics that check entities and facts evaluate a reproducible sample of up to 100 units each, so the cost stays bounded however large the graph grows, and each sampled score comes with a 95% confidence interval. The cache stores every verdict in a SQLite file, so rerunning an evaluation gives the same scores without calling the model again.
 
 ### Retrieval metrics
 
 Retrievals record which elements a retriever returned for each test question, as element IDs in rank order. Any pipeline can write them as a JSON file, and in Python, `kgeval.retrieve()` collects them from a retriever function. The retrieval metrics measure whether the retriever returned the facts each answer needs, and whether what it returned was needed.
 
-Together with `competency`, they separate the two causes of a wrong answer, so you know whether to fix the extraction or the retriever:
-
-| `competency` | `retrieval_recall`              | Cause                                           |
-| ------------ | ------------------------------- | ----------------------------------------------- |
-| Fails        | Does not count the missing fact | The graph does not contain a required fact.     |
-| Passes       | Fails                           | The retriever missed a fact that the graph has. |
+Read together with `competency`, they show what to fix when an answer is wrong. If `competency` fails, the graph lacks a fact the answer needs, so the extraction needs fixing. If `competency` passes and `retrieval_recall` fails, the graph has the fact and the retriever missed it.
 
 ## An example
 
@@ -208,21 +188,8 @@ kgeval run --metadata model=<head-model> --format json -o head.json
 kgeval compare base.json head.json
 ```
 
-The comparison reports the change in each score, along with the findings that are new and the findings that were resolved. Findings are matched by their content rather than by element ID, so they still match after the graph is rebuilt. For sampled scores, the comparison includes a 95% confidence interval for the change, so sampling noise is not reported as a regression. The [comparing builds guide](https://kgeval.github.io/kgeval/guide/comparing/) explains how to read the result.
+The comparison reports the change in each score, along with the findings that are new and the findings that were resolved. Findings are matched by their content rather than by element ID, so they still match after the graph is rebuilt. For sampled scores, the comparison includes a 95% confidence interval for the change, so sampling noise is not reported as a regression.
 
-## Background
+## Next steps
 
-The metric names follow the established terms of their fields. Conformance follows the W3C [Shapes Constraint Language](https://www.w3.org/TR/shacl/) and [Text2KGBench](https://arxiv.org/abs/2308.02357), completeness follows the survey of linked data quality, test questions follow the competency questions used in ontology design, and supporting facts follow [HotpotQA](https://arxiv.org/abs/1809.09600). The [references](https://kgeval.github.io/kgeval/guide/metrics/#references) section of the metrics guide lists every source.
-
-## Getting started
-
-kgeval is available on [PyPI](https://pypi.org/project/kgeval/). To evaluate your own graph, install it and run it against your Neo4j database:
-
-```sh
-pip install kgeval
-kgeval run
-```
-
-The [Quickstart](https://kgeval.github.io/kgeval/quickstart/) evaluates a graph and explains each part of the report, and the [example notebook](https://github.com/kgeval/kgeval/blob/main/examples/singapore/evaluate.ipynb) demonstrates every metric on one graph. All commands and options are documented in the [CLI reference](https://kgeval.github.io/kgeval/reference/cli/), and all classes and functions in the [Python API reference](https://kgeval.github.io/kgeval/reference/api/). For a hands-on walkthrough, read [How to Evaluate a Neo4j Knowledge Graph With kgeval](/blog/evaluate-neo4j-knowledge-graph-with-kgeval). For the methods behind the metrics, read [How to Evaluate a Knowledge Graph](/blog/how-to-evaluate-a-knowledge-graph), and for the defects they find, read [12 Common Knowledge Graph Quality Issues and How to Fix Them](/blog/common-knowledge-graph-quality-issues).
-
-The full guide is in the [kgeval documentation](https://kgeval.github.io/kgeval/). The source code is on [GitHub](https://github.com/kgeval/kgeval), where issues and contributions are welcome.
+Next, read [How to Evaluate a Neo4j Knowledge Graph With kgeval](/blog/evaluate-neo4j-knowledge-graph-with-kgeval) to evaluate your own graph step by step. The full guide is in the [kgeval documentation](https://kgeval.github.io/kgeval/), and the source code is on [GitHub](https://github.com/kgeval/kgeval).

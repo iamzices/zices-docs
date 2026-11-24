@@ -5,16 +5,9 @@ slug: common-knowledge-graph-quality-issues
 authors: zices-bot
 ---
 
-**Knowledge graphs built by language models tend to have the same kinds of defects: duplicate and ambiguous entities, wrong types, facts that the source text doesn't support, facts the graph misses, inconsistent naming, and missing links to the source.** Most of these defects raise no error, so they go unnoticed until they affect the answers of the application that reads the graph.
+Knowledge graphs built by language models tend to have the same kinds of defects: duplicate and ambiguous entities, wrong types, facts that the source text doesn't support, facts the graph misses, inconsistent naming, and missing links to the source. Most of these defects raise no error, so they go unnoticed until they affect the answers of the application that reads the graph.
 
 This guide describes twelve common issues, why each one happens, and how to find and fix it. Every example is a real finding from [kgeval](https://github.com/kgeval/kgeval), an open-source evaluation framework for knowledge graphs.
-
-In this guide, you'll learn:
-
-- The twelve issues, grouped into entity, fact, vocabulary and schema, and source data issues
-- Why language model extraction produces each one
-- How to find each one in a Neo4j graph
-- How to fix each one, and how to prevent it in the extraction pipeline
 
 <!-- truncate -->
 
@@ -22,14 +15,14 @@ In this guide, you'll learn:
 
 The findings in this guide come from kgeval's [example notebook](https://github.com/kgeval/kgeval/blob/main/examples/singapore/evaluate.ipynb). It evaluates a small graph about Lee Kuan Yew, Singapore's first prime minister, in the layout that Neo4j LLM Graph Builder produces: documents split into chunks, entities extracted from the chunks, and relationships between the entities, which kgeval calls facts. The graph contains one planted defect for every kgeval metric.
 
-To check your own graph for all twelve issues, run kgeval against it:
+To check your own graph, run kgeval against it:
 
 ```sh
 pip install kgeval
 kgeval run
 ```
 
-The first run uses only the graph. Some issues also need a schema, a ground truth, or an LLM judge, as noted in each section. The [how to evaluate a knowledge graph](/blog/how-to-evaluate-a-knowledge-graph) guide explains how to add each one.
+The first run uses only the graph. Some issues also need a schema, a ground truth, or an LLM judge, as noted in each section.
 
 ## Entity issues
 
@@ -39,12 +32,13 @@ The same real-world thing appears as several nodes. Sometimes the names differ o
 
 **Why it happens.** Extraction runs one chunk at a time, and each chunk names an entity its own way. Unless the pipeline resolves entities after extraction, nothing connects the different names. Duplicates split an entity's facts across several nodes, so a retriever that finds one node finds only part of what the graph knows.
 
-**How to find it.** `entity_uniqueness` finds entities whose names are the same after normalization. `entity_resolution` asks an LLM judge to find entities that are the same thing under different names:
+**How to find it.** `entity_uniqueness` finds entities whose names are the same after normalization:
 
 ```text
 - 2 entities share the normalized name 'lee kuan yew': "Lee Kuan Yew" (Person), "lee kuan yew" (Person)
-- "Lee" (Person) duplicates "Lee Kuan Yew" (Person): The excerpts indicate that 'Lee' studied law at Fitzwilliam College and was a boy named Lee Kuan Yew, showing they refer to the same person.
 ```
+
+`entity_resolution` asks an LLM judge to find entities that are the same thing under different names, such as "Lee" and "Lee Kuan Yew".
 
 **How to fix it.** Merge the duplicates into one node with [`apoc.refactor.mergeNodes`](https://neo4j.com/docs/apoc/current/overview/apoc.refactor/apoc.refactor.mergeNodes/), which moves their relationships to the node that remains. Each finding lists the element IDs to use:
 
@@ -56,7 +50,7 @@ YIELD node
 RETURN node
 ```
 
-To prevent duplicates, add an entity resolution step to the pipeline. The [neo4j-graphrag knowledge graph builder](https://neo4j.com/docs/neo4j-graphrag-python/current/user_guide_kg_builder.html), for example, includes resolvers that merge entities by exact name, by fuzzy name, or by semantic similarity.
+To prevent duplicates, add an entity resolution step to the pipeline. The neo4j-graphrag knowledge graph builder, for example, includes resolvers that merge entities by exact name, by fuzzy name, or by semantic similarity.
 
 ### 2. Pronouns and other non-entities
 
@@ -129,7 +123,7 @@ An entity takes part in no fact with another entity. In the example graph, "Mari
 
 The graph contains a fact that the source text does not state. In the example graph, Kwa Geok Choo `KNOWS` herself.
 
-**Why it happens.** Language models sometimes add facts that are plausible but not stated, reverse the direction of a relationship, or attach a fact to the wrong entity. [Text2KGBench](https://arxiv.org/abs/2308.02357), a benchmark for knowledge graph generation with language models, measures this kind of hallucination separately for subjects, relationships, and objects. Unsupported facts become wrong answers that look as reliable as correct ones.
+**Why it happens.** Language models sometimes add facts that are plausible but not stated, reverse the direction of a relationship, or attach a fact to the wrong entity. Unsupported facts become wrong answers that look as reliable as correct ones.
 
 **How to find it.** `fact_accuracy` asks an LLM judge whether the chunks that a fact's entities share support it, in its direction. With a ground truth, `fact_precision` finds the facts that the ground truth does not contain:
 
@@ -176,7 +170,7 @@ The same fact is stored more than once, with the same source, relationship type,
 
 The graph uses several names for the same type. Some are spelling variants, such as `Person` and `PERSON`, or `FOUNDED` and `Founded`. Others are synonyms, such as `ATTENDED` and `STUDIED_AT`, or `WORKS_AT` and `EMPLOYED_BY`.
 
-**Why it happens.** Without a fixed vocabulary, each extraction call chooses its own names, and the names drift across chunks. Research on open knowledge bases calls the cleanup of these variants canonicalization. A query for one name misses every fact stored under the others.
+**Why it happens.** Without a fixed vocabulary, each extraction call chooses its own names, and the names drift across chunks. A query for one name misses every fact stored under the others.
 
 **How to find it.** `vocabulary_uniqueness` finds spelling variants of node types, relationship types, and property keys. `vocabulary_resolution` asks an LLM judge for synonyms, showing it how the graph uses each name:
 
@@ -203,7 +197,7 @@ The graph breaks the rules of its schema. It contains types or patterns that the
 
 **Why it happens.** Extractors don't always follow the schema they are given, and some pipelines add data outside the extraction. Each violation is a place where queries written against the schema return incomplete or unexpected results. A declared type that the graph never uses usually means the extraction misses a kind of fact entirely.
 
-**How to find it.** With a [graph schema](https://kgeval.github.io/kgeval/guide/inputs/#graph-schema), `entity_conformance` and `fact_conformance` check every entity and fact against it, `property_completeness` checks for declared properties, and `schema_completeness` checks that the graph uses every declared type and pattern:
+**How to find it.** With a graph schema, `entity_conformance` and `fact_conformance` check every entity and fact against it, `property_completeness` checks for declared properties, and `schema_completeness` checks that the graph uses every declared type and pattern:
 
 ```text
 - "Raffles" (Organization) -[:FOUNDED]-> "Singapore" (Location): pattern (Organization)-[:FOUNDED]->(Location) is not declared
@@ -264,49 +258,12 @@ A property holds values of different types across nodes, such as a birth date st
 | Missing provenance                                 | `entity_provenance`, `fact_provenance`                                                   | Graph                                          |
 | Inconsistent property types and missing embeddings | `property_type_consistency`, `embedding_consistency`                                     | Graph                                          |
 
-The [metrics guide](https://kgeval.github.io/kgeval/guide/metrics/) defines each metric, and the [inputs guide](https://kgeval.github.io/kgeval/guide/inputs/) describes the schema, ground truth, and test question formats. To add a judge, see the [LLM judges guide](https://kgeval.github.io/kgeval/guide/judges/).
-
-## Key takeaways
-
-- Most quality issues in LLM-built knowledge graphs come from extracting one chunk at a time without a fixed vocabulary or a step that resolves entities across chunks.
-- Entity issues include duplicates, pronouns, ambiguous names, wrong types, and isolated nodes. Fact issues include unsupported, missing, and duplicate facts.
-- A schema given to the extractor prevents many issues, from wrong types to inconsistent vocabulary, and validating against the same schema finds the rest.
-- Rule-based checks find issues with a recognizable shape, and an LLM judge finds the ones that require reading the source text.
-- Each finding should point to the nodes and relationships involved, so that you can fix the graph rather than only measure it.
-
-## Frequently asked questions
-
-### Why do LLM-built knowledge graphs contain duplicate entities?
-
-Extraction runs one chunk at a time, and each chunk can name the same entity differently. Unless the pipeline resolves entities across chunks, each name becomes its own node.
-
-### How do I find hallucinated facts in a knowledge graph?
-
-Compare each fact with the text it was extracted from. kgeval's `fact_accuracy` metric asks an LLM judge whether the chunks that a fact's entities share support it, and lists each unsupported fact with the judge's reason. With a ground truth, `fact_precision` lists the facts the ground truth does not contain.
-
-### Can these issues be prevented during extraction?
-
-Many can. A schema with a closed list of types prevents most vocabulary and type issues, an entity resolution step prevents most duplicates, smaller chunks reduce missing facts, and writing relationships with `MERGE` prevents duplicate facts. Evaluating every build shows which issues remain.
-
-### Do these issues affect GraphRAG?
-
-Yes. A GraphRAG application can only answer from what the graph contains and what its retriever finds. Duplicates and inconsistent names split facts across nodes, missing facts make questions unanswerable, and unsupported facts become wrong answers.
-
-### How do I check a whole graph for these issues?
-
-Run kgeval against the graph in Neo4j. The rule-based metrics need only the graph, and the others need a schema, a ground truth, test questions, or an LLM judge:
+To check for all twelve issues in one run, give kgeval a schema, a ground truth, and an LLM judge:
 
 ```sh
 kgeval run --schema schema.yaml --ground ground_truth.yaml --judge openai:<model>
 ```
 
-## Get started
+## Next steps
 
-To check your own graph, install kgeval and run it against your Neo4j database:
-
-```sh
-pip install kgeval
-kgeval run
-```
-
-Read [How to Evaluate a Knowledge Graph](/blog/how-to-evaluate-a-knowledge-graph) for the methods behind these checks, [How to Evaluate a Neo4j Knowledge Graph With kgeval](/blog/evaluate-neo4j-knowledge-graph-with-kgeval) for a hands-on walkthrough, or [Introducing kgeval](/blog/introducing-kgeval) for an overview of the project. The [Quickstart](https://kgeval.github.io/kgeval/quickstart/) walks through your first report, the full guide is in the [kgeval documentation](https://kgeval.github.io/kgeval/), and the source code is on [GitHub](https://github.com/kgeval/kgeval).
+Next, read [How to Evaluate a Knowledge Graph](/blog/how-to-evaluate-a-knowledge-graph) to learn the methods behind these checks. The full guide is in the [kgeval documentation](https://kgeval.github.io/kgeval/), and the source code is on [GitHub](https://github.com/kgeval/kgeval).
